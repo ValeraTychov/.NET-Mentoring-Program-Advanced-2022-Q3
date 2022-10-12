@@ -13,9 +13,9 @@ public class CartServiceTests
     {
         var repository = new Mock<ICartRepository>();
         var mapper = new Mock<IMapper>();
-
         var service = new CartService(mapper.Object, repository.Object);
         var guid = Guid.NewGuid();
+        
         service.GetItems(guid);
 
         mapper.Verify(m => m.Map<Cart>(It.IsAny<Cart>()));
@@ -29,8 +29,8 @@ public class CartServiceTests
         var mapper = new Mock<IMapper>();
         mapper.Setup(m => m.Map<Cart>(It.IsAny<DAL.Entities.Cart>())).Returns<Cart>(null);
         var item = Mock.Of<Item>();
-        
         var service = new CartService(mapper.Object, repository.Object);
+        
         service.AddItem(Guid.NewGuid(), item);
 
         mapper.Verify(m => m.Map<DAL.Entities.Cart>(It.IsNotNull<Cart>()));
@@ -45,8 +45,8 @@ public class CartServiceTests
         Cart? cart = null;
         mapper.Setup(m => m.Map<Cart?>(It.IsAny<DAL.Entities.Cart>())).Returns(cart);
         var item = new Item { Quantity = 42 };
-
         var service = new CartService(mapper.Object, repository.Object);
+        
         service.AddItem(Guid.NewGuid(), item);
 
         mapper.Verify(m => m.Map<DAL.Entities.Cart>(It.Is<Cart>(c => c.Items[0].Quantity == 42)));
@@ -59,10 +59,9 @@ public class CartServiceTests
         var repository = new Mock<ICartRepository>();
         var mapper = new Mock<IMapper>();
         mapper.Setup(m => m.Map<Cart>(It.IsAny<DAL.Entities.Cart>())).Returns(new Cart { Items = new List<Item> { itemInCart } });
-        
         var itemToAdd = new Item { Quantity = 2 };
-
         var service = new CartService(mapper.Object, repository.Object);
+        
         service.AddItem(Guid.NewGuid(), itemToAdd);
 
         mapper.Verify(m => m.Map<DAL.Entities.Cart>(It.Is<Cart>(c => c.Items[0].Quantity == 4)));
