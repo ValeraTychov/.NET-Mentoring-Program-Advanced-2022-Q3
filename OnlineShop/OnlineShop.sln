@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CartService.BLL"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CartService.DAL", "src\OnlineShop.CartService.DAL\OnlineShop.CartService.DAL.csproj", "{FB23B5A5-9C11-4C6B-9D08-3161B8D00844}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.BLL.Test", "test\UnitTests\CartService.BLL.Test\CartService.BLL.Test.csproj", "{81B87EBB-F0A0-4048-84AF-17A73677ADB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CartService.BLL.Test", "test\UnitTests\OnlineShop.CartService.BLL.Test\OnlineShop.CartService.BLL.Test.csproj", "{81B87EBB-F0A0-4048-84AF-17A73677ADB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
