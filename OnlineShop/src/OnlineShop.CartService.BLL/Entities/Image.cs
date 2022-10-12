@@ -1,4 +1,4 @@
-﻿namespace OnlineShop.BLL.CartService.Entities;
+﻿namespace OnlineShop.CartService.BLL.Entities;
 
 public class Image
 {

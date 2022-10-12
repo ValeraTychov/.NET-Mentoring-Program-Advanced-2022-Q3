@@ -12,14 +12,15 @@
     <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="FluentAssertions" Version="6.7.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="Moq" Version="4.18.2" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.8" />
     <PackageReference Include="coverlet.collector" Version="3.1.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\OnlineShop.BLL.CartService\OnlineShop.BLL.CartService.csproj" />
-    <ProjectReference Include="..\..\..\src\OnlineShop.DAL.CartService\OnlineShop.DAL.CartService.csproj" />
+    <ProjectReference Include="..\..\..\src\OnlineShop.CartService.BLL\OnlineShop.CartService.BLL.csproj" />
+    <ProjectReference Include="..\..\..\src\OnlineShop.CartService.DAL\OnlineShop.CartService.DAL.csproj" />
   </ItemGroup>
 
 </Project>

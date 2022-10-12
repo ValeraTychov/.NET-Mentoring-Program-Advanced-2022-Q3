@@ -11,8 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\OnlineShop.DAL.CartService\OnlineShop.DAL.CartService.csproj" />
-    <ProjectReference Include="..\OnlineShop.DAL.CartService\OnlineShop.DAL.CartService.csproj" />
+    <ProjectReference Include="..\OnlineShop.CartService.DAL\OnlineShop.CartService.DAL.csproj" />
   </ItemGroup>
 
 </Project>

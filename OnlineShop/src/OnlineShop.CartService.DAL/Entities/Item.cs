@@ -1,4 +1,4 @@
-﻿namespace OnlineShop.BLL.CartService.Entities;
+﻿namespace OnlineShop.CartService.DAL.Entities;
 
 public class Item
 {

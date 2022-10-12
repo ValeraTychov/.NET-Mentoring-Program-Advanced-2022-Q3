@@ -1,4 +1,4 @@
-﻿namespace OnlineShop.DAL.CartService.Entities;
+﻿namespace OnlineShop.CartService.DAL.Entities;
 
 public class Image
 {

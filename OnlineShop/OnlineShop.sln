@@ -7,11 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{580C79D4-D86
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BLL", "BLL", "{8C52C861-2918-4439-B507-9CA8D89DA96F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.BLL.CartService", "src\OnlineShop.BLL.CartService\OnlineShop.BLL.CartService.csproj", "{D1110029-CBF4-44C7-9941-39F69D43322F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CartService.BLL", "src\OnlineShop.CartService.BLL\OnlineShop.CartService.BLL.csproj", "{D1110029-CBF4-44C7-9941-39F69D43322F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.DAL.CartService", "src\OnlineShop.DAL.CartService\OnlineShop.DAL.CartService.csproj", "{FB23B5A5-9C11-4C6B-9D08-3161B8D00844}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CartService.DAL", "src\OnlineShop.CartService.DAL\OnlineShop.CartService.DAL.csproj", "{FB23B5A5-9C11-4C6B-9D08-3161B8D00844}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL.CartService.Test", "test\UnitTests\BLL.CartService.Test\BLL.CartService.Test.csproj", "{81B87EBB-F0A0-4048-84AF-17A73677ADB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartService.BLL.Test", "test\UnitTests\CartService.BLL.Test\CartService.BLL.Test.csproj", "{81B87EBB-F0A0-4048-84AF-17A73677ADB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

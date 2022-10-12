@@ -1,6 +1,6 @@
-﻿using OnlineShop.BLL.CartService.Entities;
+﻿using OnlineShop.CartService.BLL.Entities;
 
-namespace OnlineShop.BLL.CartService;
+namespace OnlineShop.CartService.BLL;
 
 public interface ICartService
 {
