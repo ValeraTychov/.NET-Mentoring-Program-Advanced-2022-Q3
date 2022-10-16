@@ -2,12 +2,12 @@
 
 public interface IOperationResult
 {
-    bool Success { init; }
+    bool IsSuccess { get; }
 
-    string Message { init; }
+    string? Message { get; }
 }
 
 public interface IOperationResult<T> : IOperationResult
 {
-    T Value { init; }
+    T Value { get; }
 }

@@ -2,20 +2,8 @@
 
 public class Item
 {
-    private string _name;
-
     //Name – required, plain text, max length = 50.
-    public string Name
-    {
-        get
-        {
-            return _name;
-        }
-        set
-        {
-            _name = value;
-        }
-    }
+    public string Name { get; set; }
 
     //Description – optional, can contain html.
     public string? Description { get; set; }

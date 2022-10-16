@@ -1,39 +1,54 @@
 ﻿using OnlineShop.CatalogService.Domain.Entities;
 using OnlineShop.CatalogService.Domain.Models;
+using OnlineShop.CatalogService.Domain.Validation;
 
 namespace OnlineShop.CatalogService.Domain;
 
 public class CategoryService
 {
-    private readonly IRepository<Category> _categoryRepository;
+    private readonly IRepository<Category> _repository;
+    private readonly IValidator<Category> _validator;
 
-    public CategoryService(IRepository<Category> categoryRepository)
+    public CategoryService(IRepository<Category> repository)
     {
-        _categoryRepository = categoryRepository;
+        _repository = repository;
+        _validator = CategoryValidator.Create();
     }
 
     public IEnumerable<Category> GetCategories()
     {
-        return _categoryRepository.Get();
+        return _repository.Get();
     }
 
     public Category GetCategory(int id)
     {
-        return _categoryRepository.Get(id);
+        return _repository.Get(id);
     }
 
-    public void Add(Category entity)
+    public IOperationResult Add(Category category)
     {
-        _categoryRepository.Add(entity);
+        return AddOrUpdate(category, c => _repository.Add(c));
     }
 
-    public void Update(Category entity)
+    public IOperationResult Update(Category entity)
     {
-        _categoryRepository.Update(entity);
+        return AddOrUpdate(entity, c => _repository.Update(c));
+    }
+
+    private IOperationResult AddOrUpdate(Category category, Action<Category> action)
+    {
+        var validationResult = _validator.Validate(category);
+        if (!validationResult.isValid)
+        {
+            return OperationResult.Fail(validationResult.message!);
+        }
+
+        action(category);
+        return OperationResult.Success();
     }
 
     public void Delete(int id)
     {
-        _categoryRepository.Delete(id);
+        _repository.Delete(id);
     }
 }
