@@ -2,6 +2,8 @@
 
 public class Item
 {
+    public int Id { get; set; }
+
     //Name – required, plain text, max length = 50.
     public string Name { get; set; }
 
