@@ -7,12 +7,12 @@ namespace OnlineShop.CatalogService.Domain;
 public class CategoryService
 {
     private readonly IRepository<Category> _repository;
-    private readonly IValidator<Category> _validator;
+    //private readonly IValidator<Category> _validator;
 
     public CategoryService(IRepository<Category> repository)
     {
         _repository = repository;
-        _validator = CategoryValidator.Create();
+       // _validator = CategoryValidator.Create();
     }
 
     public IEnumerable<Category> GetCategories()
@@ -37,11 +37,11 @@ public class CategoryService
 
     private IOperationResult AddOrUpdate(Category category, Action<Category> action)
     {
-        var validationResult = _validator.Validate(category);
-        if (!validationResult.isValid)
-        {
-            return OperationResult.Fail(validationResult.message!);
-        }
+        //var validationResult = _validator.Validate(category);
+        //if (!validationResult.isValid)
+        //{
+        //    return OperationResult.Fail(validationResult.message!);
+        //}
 
         action(category);
         return OperationResult.Success();
