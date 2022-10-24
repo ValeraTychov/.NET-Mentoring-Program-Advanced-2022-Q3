@@ -34,7 +34,7 @@ public class Item : ValidatableBase<Item>
         validator = Validator.For<Item>(item => item.Name != null, GenerateFieldIsRequiredString("Name"))
             & Validator.For<Item>(item => item.Name.Length <= 50, "Name field max length = 50")
             & Validator.For<Item>(item => item.Category != null, GenerateFieldIsRequiredString("Category"))
-            & Validator.For<Item>(item => item.Amount > 0, "Amount field should be positive int"));
+            & Validator.For<Item>(item => item.Amount > 0, "Amount field should be positive int");
     }
 
     private static string GenerateFieldIsRequiredString(string fieldName)

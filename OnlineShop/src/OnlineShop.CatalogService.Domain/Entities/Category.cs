@@ -23,7 +23,7 @@ public class Category : ValidatableBase<Category>
     private void SetDefaultValidator()
     {
         validator = Validator.For<Category>(c => c.Id >= 0, "Id should be positive integer")
-            & Validator.For<Category>(c => c.Name != null, "Name field is required")
+            & Validator.For<Category>(c => c.Name != null, "Name property is required")
             & Validator.For<Category>(c => c.Name?.Length <= 50, "Name field max length = 50");
     }
 }
