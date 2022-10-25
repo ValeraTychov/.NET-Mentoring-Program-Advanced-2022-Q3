@@ -1,16 +1,16 @@
 ﻿namespace OnlineShop.CatalogService.Domain.Validation;
 
-public class ValidatableBase<T> : IValidatable where T : ValidatableBase<T>
+public class ValidatableBase<TEntity> : IValidatable where TEntity : ValidatableBase<TEntity>
 {
-    protected ValidatorBase<T> validator;
+    protected ValidatorBase<TEntity> EntityValidator;
 
     public ValidationResult Validate()
     {
-        return validator.Validate((T)this);
+        return EntityValidator.Validate((TEntity)this);
     }
 
-    public void SetValidator(ValidatorBase<T> validator)
+    public void SetValidator(ValidatorBase<TEntity> validator)
     {
-        this.validator = validator ?? throw new ArgumentNullException(nameof(validator));
+        this.EntityValidator = validator ?? throw new ArgumentNullException(nameof(validator));
     }
 }

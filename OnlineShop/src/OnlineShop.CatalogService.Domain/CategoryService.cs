@@ -1,18 +1,15 @@
 ﻿using OnlineShop.CatalogService.Domain.Entities;
 using OnlineShop.CatalogService.Domain.Models;
-using OnlineShop.CatalogService.Domain.Validation;
 
 namespace OnlineShop.CatalogService.Domain;
 
 public class CategoryService
 {
     private readonly IRepository<Category> _repository;
-    //private readonly IValidator<Category> _validator;
 
     public CategoryService(IRepository<Category> repository)
     {
         _repository = repository;
-       // _validator = CategoryValidator.Create();
     }
 
     public IEnumerable<Category> GetCategories()
@@ -37,11 +34,11 @@ public class CategoryService
 
     private IOperationResult AddOrUpdate(Category category, Action<Category> action)
     {
-        //var validationResult = _validator.Validate(category);
-        //if (!validationResult.isValid)
-        //{
-        //    return OperationResult.Fail(validationResult.message!);
-        //}
+        var validationResult = category.Validate();
+        if (!validationResult.IsValid)
+        {
+            return OperationResult.Fail(validationResult.Message!);
+        }
 
         action(category);
         return OperationResult.Success();
