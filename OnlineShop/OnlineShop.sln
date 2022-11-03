@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CatalogService.I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CatalogService.Domain.Tests", "test\UnitTests\OnlineShop.CatalogService.Domain.Tests\OnlineShop.CatalogService.Domain.Tests.csproj", "{26E82F30-D0F2-4D39-8250-2F6113C107D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShop.CatalogService.WebApplication", "src\OnlineShop.CatalogService.WebApplication\OnlineShop.CatalogService.WebApplication.csproj", "{1FFA7E09-E165-4E01-957F-C81CDD9FA72B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CatalogService.WebApplication", "src\OnlineShop.CatalogService.WebApplication\OnlineShop.CatalogService.WebApplication.csproj", "{1FFA7E09-E165-4E01-957F-C81CDD9FA72B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
