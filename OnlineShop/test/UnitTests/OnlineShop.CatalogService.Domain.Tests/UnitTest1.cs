@@ -19,7 +19,7 @@ namespace OnlineShop.CatalogService.Domain.Tests
                 .CreateMapper();
             var categoryRepository = new GenericRepository<Category, DalCategory>(mapper, dbContext);
             var categoryService = new CatalogService(categoryRepository);
-            categoryService.Add(new Category { Name = "Category 2" });
+            categoryService.Add(new Category { Name = "Category 2", Parent = new Category { Id = 8 } } );
         }
     }
 }

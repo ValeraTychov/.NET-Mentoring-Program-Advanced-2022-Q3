@@ -31,9 +31,12 @@ public class GenericRepository<TEntity, TDalEntity> : IRepository<TEntity>, IDis
 
     public void Add(TEntity entity)
     {
-        _entities.Add(_mapper.Map<TDalEntity>(entity));
-        _dbContext.SaveChanges();
+        var dalEntity = _mapper.Map<TDalEntity>(entity);
+        _entities.Add(dalEntity);
+
+        _dbContext.Entry(dalEntity).State = EntityState.Added;
     }
+
     public void Update(TEntity entity)
     {
         _entities.Update(_mapper.Map<TDalEntity>(entity));
