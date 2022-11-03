@@ -17,6 +17,8 @@ public class GenericRepository<TEntity, TDalEntity> : IRepository<TEntity>, IDis
         _entities = dbContext.Set<TDalEntity>();
     }
 
+    public Type Type => typeof(TEntity);
+
     public IEnumerable<TEntity> Get()
     {
         return _entities.Select(dalEntity => _mapper.Map<TEntity>(dalEntity)).ToArray();
