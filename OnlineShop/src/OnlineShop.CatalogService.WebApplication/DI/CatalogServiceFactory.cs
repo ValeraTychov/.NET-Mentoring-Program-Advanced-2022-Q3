@@ -17,8 +17,8 @@ namespace OnlineShop.CatalogService.WebApplication.DI
                 new MapperConfiguration(cfg => cfg.AddProfile<CatalogServiceProfile>())
                 .CreateMapper();
 
-            var itemRepository = new GenericRepository<Item, DalItem>(mapper, dbContext);
-            var categoryRepository = new GenericRepository<Category, DalCategory>(mapper, dbContext);
+            var itemRepository = new ItemRepository(mapper, dbContext);
+            var categoryRepository = new CategoryRepository(mapper, dbContext);
 
             var catalogService = new Domain.CatalogService(itemRepository, categoryRepository);
 

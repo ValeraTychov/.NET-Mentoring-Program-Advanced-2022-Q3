@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.CatalogService.WebApplication.Entities;
+using OnlineShop.CatalogService.WebApplication.Links;
 using OnlineShop.CatalogService.WebApplication.Models;
-using System.Net;
 using DomainCategory = OnlineShop.CatalogService.Domain.Entities.Category;
+using DomainItem = OnlineShop.CatalogService.Domain.Entities.Item;
 
 namespace OnlineShop.CatalogService.WebApplication.Controllers;
 
@@ -24,8 +25,24 @@ public class CategoryController : ControllerBase
     public GetCategoriesResponse Get()
     {
         var categories = GetAll();
-
         return new GetCategoriesResponse { Categories = categories };
+    }
+
+    [HttpGet("{id}")]
+    public GetCategoryResponse? Get(int id)
+    {
+        var category = GetAll().FirstOrDefault(c => c.Id == id);
+
+        if (category == null)
+        {
+            return null;
+        }
+
+        return new GetCategoryResponse
+        {
+            Category = category,
+            Links = CategoryLinksFactory.Create(Request)
+        };
     }
 
     private IEnumerable<Category> GetAll()
@@ -33,31 +50,24 @@ public class CategoryController : ControllerBase
         return _catalogService.Get<DomainCategory>().Select(dc => _mapper.Map<Category>(dc));
     }
 
-    [HttpGet("{id}")]
-    public ActionResult<Category> Get(int id)
+    [Route("{id}/Children")]
+    [HttpGet]
+    public IEnumerable<Category> GetChildrenCategories(int id)
     {
-        var category = GetAll().FirstOrDefault(c => c.Id == id);
-
-        if (category == null)
-        {
-            return NotFound();
-        }
-
-        return category;
+        var categories = GetAll().Where(c => c.ParentId == id);
+        return categories;
     }
 
-    //[HttpGet("{parentId}")]
-    //public ActionResult<Category> GetByParentId(int parentId)
-    //{
-    //    var category = GetAll().Where(c => c.Parent.Id == id);
-
-    //    if (category == null)
-    //    {
-    //        return NotFound();
-    //    }
-
-    //    return category;
-    //}
+    [Route("{id}/Items")]
+    [HttpGet]
+    public IEnumerable<Item> GetItems(int id)
+    {
+        var items = _catalogService
+            .Get<DomainItem>()
+            .Where(i => i.Category.Id == id)
+            .Select(i => _mapper.Map<Item>(i));
+        return items;
+    }
 
     [HttpPost]
     public void Post([FromBody] Category value)
@@ -68,11 +78,12 @@ public class CategoryController : ControllerBase
     [HttpPut("{id}")]
     public void Put(int id, [FromBody] Category value)
     {
-        
+        _catalogService.Update(_mapper.Map<DomainCategory>(value));
     }
 
     [HttpDelete("{id}")]
     public void Delete(int id)
     {
+        _catalogService.Delete<DomainCategory>(id);
     }
 }

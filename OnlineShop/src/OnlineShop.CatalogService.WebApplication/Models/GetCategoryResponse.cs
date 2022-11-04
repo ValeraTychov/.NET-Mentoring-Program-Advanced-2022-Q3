@@ -1,9 +1,11 @@
-﻿using OnlineShop.CatalogService.Domain.Entities;
+﻿using OnlineShop.CatalogService.WebApplication.Entities;
 
 namespace OnlineShop.CatalogService.WebApplication.Models
 {
     public class GetCategoryResponse
     {
-        //public Category 
+        public Category Category { get; set; }
+
+        public Dictionary<string, string> Links { get; set; }
     }
 }

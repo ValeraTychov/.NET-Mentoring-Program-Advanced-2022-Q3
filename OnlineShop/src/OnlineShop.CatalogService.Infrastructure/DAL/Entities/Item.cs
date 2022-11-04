@@ -10,6 +10,8 @@ public class Item
 
     public Uri? Image { get; set; }
 
+    public int CategoryId { get; set; }
+
     public Category Category { get; set; }
     
     public decimal Price { get; set; }

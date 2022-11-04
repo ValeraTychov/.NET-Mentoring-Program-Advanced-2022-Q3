@@ -11,9 +11,9 @@ public class CategoryRepository : GenericRepository<Category, DalCategory>
     {
     }
 
-    public override void Add(Category entity)
+    public override void Add(Category category)
     {
-        var dalCategory = Mapper.Map<DalCategory>(entity);
+        var dalCategory = Mapper.Map<DalCategory>(category);
 
         if (dalCategory.Parent == null)
         {

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using OnlineShop.CatalogService.WebApplication.Entities;
+using System.Runtime.CompilerServices;
 using DomainCategory = OnlineShop.CatalogService.Domain.Entities.Category;
 using DomainItem = OnlineShop.CatalogService.Domain.Entities.Item;
 
@@ -10,6 +11,7 @@ public class CatalogServiceProfile : Profile
     public CatalogServiceProfile()
     {
         CreateMap<Category, DomainCategory>().ReverseMap();
-        CreateMap<Item, DomainItem>().ReverseMap();
+        CreateMap<Item, DomainItem>().ForMember(di => di.Category, cfg => cfg.MapFrom(x => new DomainCategory { Id = x.CategoryId }));
+        CreateMap<DomainItem, Item>();
     }
 }
