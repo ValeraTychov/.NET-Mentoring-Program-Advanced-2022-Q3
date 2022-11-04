@@ -1,16 +1,32 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
+using OnlineShop.CatalogService.WebApplication.Models;
 
 namespace OnlineShop.CatalogService.WebApplication.Links;
 
 public class CategoryLinksFactory
 {
-    public static Dictionary<string, string> Create(HttpRequest httpRequest)
+    public static List<Link> Create(HttpRequest httpRequest)
     {
-        return new Dictionary<string, string>
+        return new List<Link>
         {
-            ["self"] = $"{httpRequest.GetDisplayUrl()}",
-            ["children"] = $"{httpRequest.GetDisplayUrl()}/Children",
-            ["items"] = $"{httpRequest.GetDisplayUrl()}/Items",
+            new Link
+            {
+                Href = $"{httpRequest.GetDisplayUrl()}",
+                Rel = "self",
+                Method = "GET",
+            },
+            new Link
+            {
+                Href = $"{httpRequest.GetDisplayUrl()}/Children",
+                Rel = "children",
+                Method = "GET",
+            },
+            new Link
+            {
+                Href = $"{httpRequest.GetDisplayUrl()}/Items",
+                Rel = "items",
+                Method = "GET",
+            }
         };
     }
 }

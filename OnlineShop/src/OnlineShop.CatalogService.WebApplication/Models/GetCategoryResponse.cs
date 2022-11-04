@@ -6,6 +6,6 @@ namespace OnlineShop.CatalogService.WebApplication.Models
     {
         public Category Category { get; set; }
 
-        public Dictionary<string, string> Links { get; set; }
+        public List<Link> Links { get; set; }
     }
 }
