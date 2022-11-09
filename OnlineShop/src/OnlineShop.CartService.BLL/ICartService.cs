@@ -4,7 +4,7 @@ namespace OnlineShop.CartService.BLL;
 
 public interface ICartService
 {
-    IEnumerable<Item> GetItems(Guid cartId);
+    Cart? GetCart(Guid cartId);
 
     void AddItem(Guid cartId, Item item);
 

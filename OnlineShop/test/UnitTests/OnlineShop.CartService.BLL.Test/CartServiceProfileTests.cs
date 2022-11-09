@@ -34,7 +34,7 @@ public class CartServiceProfileTests
                     Name = "test",
                     Image = new Image
                     {
-                        Url = new Uri(expextedUri),
+                        Url = expextedUri,
                         AltText = "test",
                     },
                     Price = 0.0M,
@@ -105,7 +105,7 @@ public class CartServiceProfileTests
                     Name = "test",
                     Image = new Image
                     {
-                        Url = new Uri(expextedUri),
+                        Url = expextedUri,
                         AltText = "test",
                     },
                     Price = 0.0M,

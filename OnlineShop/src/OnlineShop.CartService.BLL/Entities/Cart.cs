@@ -14,6 +14,11 @@ public class Cart
 
     public void AddItem(Item item)
     {
+        if (item.Quantity < 1)
+        {
+            item.Quantity = 1;
+        }
+
         if(this.HasItem(item.Id, out var itemInCart))
         {
             itemInCart!.Quantity += item.Quantity;
