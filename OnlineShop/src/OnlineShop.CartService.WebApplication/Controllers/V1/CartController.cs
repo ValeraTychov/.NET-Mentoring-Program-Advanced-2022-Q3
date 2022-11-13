@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineShop.CartService.BLL;
 using OnlineShop.CartService.WebApplication.Entities;
 
-namespace OnlineShop.CartService.WebApplication.Controllers;
+namespace OnlineShop.CartService.WebApplication.Controllers.V1;
 
-[Route("api/[controller]")]
 [ApiController]
+//[ApiVersion("1.0")]
+[Route("api/v1/[controller]")]
 public class CartController : ControllerBase
 {
     private readonly ICartService _cartService;
@@ -16,12 +17,6 @@ public class CartController : ControllerBase
     {
         _cartService = cartService;
         _mapper = mapper;
-    }
-
-    [HttpGet]
-    public IEnumerable<Cart> Get()
-    {
-        throw new NotImplementedException();
     }
 
     [HttpGet("{cartId}")]
