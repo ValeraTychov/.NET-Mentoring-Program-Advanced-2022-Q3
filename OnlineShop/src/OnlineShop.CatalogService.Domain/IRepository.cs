@@ -1,6 +1,6 @@
 ﻿namespace OnlineShop.CatalogService.Domain;
 
-public interface IRepository<TEntity> : IRepository
+public interface IRepository<TEntity>
 {
     IEnumerable<TEntity> Get();
 
@@ -11,9 +11,4 @@ public interface IRepository<TEntity> : IRepository
     void Update(TEntity entity);
 
     void Delete(int id);
-}
-
-public interface IRepository
-{
-    Type Type { get; }
 }

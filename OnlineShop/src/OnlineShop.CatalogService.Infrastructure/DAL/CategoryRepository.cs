@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using OnlineShop.CatalogService.Domain;
 using OnlineShop.CatalogService.Domain.Entities;
 using DalCategory = OnlineShop.CatalogService.Infrastructure.DAL.Entities.Category;
 
 namespace OnlineShop.CatalogService.Infrastructure.DAL;
 
-public class CategoryRepository : GenericRepository<Category, DalCategory>
+public class CategoryRepository : GenericRepository<Category, DalCategory>, ICategoryRepository
 {
     public CategoryRepository(IMapper mapper, DbContext dbContext) : base(mapper, dbContext)
     {
@@ -49,5 +50,16 @@ public class CategoryRepository : GenericRepository<Category, DalCategory>
         dalCategory.Parent = parentFromDb;
 
         base.Update(dalCategory);
+    }
+
+    public IEnumerable<Category> GetRange(int from = 0, int to = int.MaxValue)
+    {
+        var count = to - from;
+        return Entities.Skip(from).Take(count).AsEnumerable().Select(Mapper.Map<Category>);
+    }
+
+    public IEnumerable<Category> GetChildren(int parentId)
+    {
+        return Entities.Where(c => c.Parent.Id == parentId).AsEnumerable().Select(Mapper.Map<Category>);
     }
 }

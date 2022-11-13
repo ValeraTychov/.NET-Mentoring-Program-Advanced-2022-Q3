@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using OnlineShop.CatalogService.Domain;
 using OnlineShop.CatalogService.Domain.Entities;
 using DalItem = OnlineShop.CatalogService.Infrastructure.DAL.Entities.Item;
 using DalCategory = OnlineShop.CatalogService.Infrastructure.DAL.Entities.Category;
 
 namespace OnlineShop.CatalogService.Infrastructure.DAL;
 
-public class ItemRepository : GenericRepository<Item, DalItem>
+public class ItemRepository : GenericRepository<Item, DalItem>, IItemRepository
 {
     public ItemRepository(IMapper mapper, DbContext dbContext) : base(mapper, dbContext)
     {
@@ -37,18 +38,14 @@ public class ItemRepository : GenericRepository<Item, DalItem>
         base.Add(dalItem);
     }
 
-    //public override void Update(Item category)
-    //{
-    //    var dalCategory = Mapper.Map<DalItem>(category);
-    //    if (dalCategory.Parent == null)
-    //    {
-    //        base.Update(category);
-    //        return;
-    //    }
+    public IEnumerable<Item> GetRange(int from = 0, int to = int.MaxValue)
+    {
+        var count = to - from;
+        return Entities.Skip(from).Take(count).AsEnumerable().Select(Mapper.Map<Item>);
+    }
 
-    //    var parentFromDb = Entities.FirstOrDefault(c => c.Id == dalCategory.Parent.Id);
-    //    dalCategory.Parent = parentFromDb;
-
-    //    base.Update(dalCategory);
-    //}
+    public IEnumerable<Item> GetByCategory(int categoryId)
+    {
+        return Entities.Where(c => c.Category.Id == categoryId).AsEnumerable().Select(Mapper.Map<Item>);
+    }
 }
