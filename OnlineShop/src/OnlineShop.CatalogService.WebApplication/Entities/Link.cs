@@ -1,4 +1,4 @@
-﻿namespace OnlineShop.CatalogService.WebApplication.Models;
+﻿namespace OnlineShop.CatalogService.WebApplication.Entities;
 
 public class Link
 {

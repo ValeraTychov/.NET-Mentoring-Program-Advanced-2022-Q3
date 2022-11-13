@@ -4,6 +4,7 @@ using OnlineShop.CatalogService.Domain;
 using OnlineShop.CatalogService.WebApplication.Entities;
 using OnlineShop.CatalogService.WebApplication.Links;
 using OnlineShop.CatalogService.WebApplication.Models;
+using OnlineShop.CatalogService.WebApplication.Pagination;
 using DomainCategory = OnlineShop.CatalogService.Domain.Entities.Category;
 using DomainItem = OnlineShop.CatalogService.Domain.Entities.Item;
 
@@ -16,19 +17,32 @@ public class CategoryController : ControllerBase
     private readonly ICategoryService _categoryService;
     private readonly IItemService _itemService;
     private readonly IMapper _mapper;
+    private readonly int _pageSize = 5;
 
     public CategoryController(ICategoryService categoryService, IItemService itemService, IMapper mapper)
     {
         _categoryService = categoryService;
         _itemService = itemService;
         _mapper = mapper;
-    }  
+    }
 
+    [Route("/api/Categories/Page/{pageNumber}")]
     [HttpGet]
-    public GetCategoriesResponse Get()
+    public GetCategoriesResponse GetPage(int pageNumber)
     {
-        var categories = _categoryService.GetRange().Select(dc => _mapper.Map<Category>(dc));
-        return new GetCategoriesResponse { Categories = categories };
+        var (from, to) = PageCalculator.CalcIndexRange(pageNumber, _pageSize);
+        var range = _categoryService.GetRange(from, to);
+        var page = new Page<Category>
+        {
+            Content = range.Entities.Select(dc => _mapper.Map<Category>(dc)).ToList(),
+            Number = pageNumber,
+            Total = PageCalculator.CalcTotalPages(range.TotalCount, _pageSize),
+        };
+        return new GetCategoriesResponse
+        {
+            Page = page,
+            Links = CategoriesLinksFactory.Create(Request, page)
+        };
     }
 
     [HttpGet("{id}")]

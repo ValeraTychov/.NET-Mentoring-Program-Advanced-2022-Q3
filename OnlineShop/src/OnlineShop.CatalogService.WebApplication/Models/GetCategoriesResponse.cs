@@ -4,5 +4,7 @@ namespace OnlineShop.CatalogService.WebApplication.Models;
 
 public class GetCategoriesResponse
 {
-    public IEnumerable<Category> Categories { get; set; }
+    public Page<Category> Page { get; set; }
+
+    public List<Link> Links { get; set; }
 }

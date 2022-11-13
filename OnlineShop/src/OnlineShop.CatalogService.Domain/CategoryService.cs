@@ -12,9 +12,12 @@ public class CategoryService : ICategoryService
         _categoryRepository = categoryRepository;
     }
 
-    public IEnumerable<Category> GetRange(int from = 0, int to = int.MaxValue)
+    public Range<Category> GetRange(int from = 0, int to = int.MaxValue)
     {
-        return _categoryRepository.GetRange(from, to);
+        return new Range<Category>{
+            Entities = _categoryRepository.GetRange(from, to),
+            TotalCount = _categoryRepository.GetCount(),
+        };
     }
 
     public Category Get(int id)

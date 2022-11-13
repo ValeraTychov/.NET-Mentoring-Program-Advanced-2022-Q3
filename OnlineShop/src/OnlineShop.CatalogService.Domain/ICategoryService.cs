@@ -5,7 +5,7 @@ namespace OnlineShop.CatalogService.Domain;
 
 public interface ICategoryService
 {
-    IEnumerable<Category> GetRange(int from = 0, int to = int.MaxValue);
+    Range<Category> GetRange(int from = 0, int to = int.MaxValue);
 
     Category Get(int id);
 

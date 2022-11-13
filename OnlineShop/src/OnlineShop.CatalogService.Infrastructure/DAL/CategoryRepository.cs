@@ -54,12 +54,17 @@ public class CategoryRepository : GenericRepository<Category, DalCategory>, ICat
 
     public IEnumerable<Category> GetRange(int from = 0, int to = int.MaxValue)
     {
-        var count = to - from;
+        var count = to - from + 1;
         return Entities.Skip(from).Take(count).AsEnumerable().Select(Mapper.Map<Category>);
     }
 
     public IEnumerable<Category> GetChildren(int parentId)
     {
         return Entities.Where(c => c.Parent.Id == parentId).AsEnumerable().Select(Mapper.Map<Category>);
+    }
+
+    public int GetCount()
+    {
+        return Entities.Count();
     }
 }

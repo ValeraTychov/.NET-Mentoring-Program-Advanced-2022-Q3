@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
-using OnlineShop.CatalogService.WebApplication.Models;
+using OnlineShop.CatalogService.WebApplication.Entities;
 
 namespace OnlineShop.CatalogService.WebApplication.Links;
 
