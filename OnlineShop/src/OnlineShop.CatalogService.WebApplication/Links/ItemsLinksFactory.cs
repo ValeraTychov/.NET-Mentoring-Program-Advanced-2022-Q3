@@ -4,9 +4,9 @@ using OnlineShop.CatalogService.WebApplication.Entities;
 
 namespace OnlineShop.CatalogService.WebApplication.Links;
 
-public class CategoriesLinksFactory
+public class ItemsLinksFactory
 {
-    public static List<Link> Create(HttpRequest httpRequest, Page<Category> page)
+    public static List<Link> Create(HttpRequest httpRequest, Page<Item> page)
     {
         var apiSubPath = Regex.Match(httpRequest.GetDisplayUrl(), ".+api");
 

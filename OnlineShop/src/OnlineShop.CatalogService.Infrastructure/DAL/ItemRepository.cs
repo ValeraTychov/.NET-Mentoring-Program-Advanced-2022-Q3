@@ -48,4 +48,9 @@ public class ItemRepository : GenericRepository<Item, DalItem>, IItemRepository
     {
         return Entities.Where(c => c.Category.Id == categoryId).AsEnumerable().Select(Mapper.Map<Item>);
     }
+
+    public int GetCount()
+    {
+        return Entities.Count();
+    }
 }

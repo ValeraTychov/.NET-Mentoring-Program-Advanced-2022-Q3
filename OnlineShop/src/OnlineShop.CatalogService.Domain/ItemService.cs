@@ -12,9 +12,13 @@ public class ItemService : IItemService
         _itemRepository = itemRepository;
     }
 
-    public IEnumerable<Item> GetRange(int from = 0, int to = int.MaxValue)
+    public Range<Item> GetRange(int from = 0, int to = int.MaxValue)
     {
-        return _itemRepository.GetRange(from, to);
+        return new Range<Item>
+        {
+            Entities = _itemRepository.GetRange(from, to),
+            TotalCount = _itemRepository.GetCount(),
+        };
     }
 
     public Item Get(int id)
