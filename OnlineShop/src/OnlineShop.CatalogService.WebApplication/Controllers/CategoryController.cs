@@ -32,12 +32,12 @@ public class CategoryController : ControllerBase
     {
         var (from, to) = PageCalculator.CalcIndexRange(pageNumber, _pageSize);
         var range = _categoryService.GetRange(from, to);
-        var page = new Page<Category>
-        {
-            Content = range.Entities.Select(dc => _mapper.Map<Category>(dc)).ToList(),
-            Number = pageNumber,
-            Total = PageCalculator.CalcTotalPages(range.TotalCount, _pageSize),
-        };
+        var page = new Page<Category>(
+            range.Entities.Select(dc => _mapper.Map<Category>(dc)).ToList(),
+            range.TotalCount,
+            pageNumber,
+            _pageSize);
+
         return new GetCategoriesResponse
         {
             Page = page,

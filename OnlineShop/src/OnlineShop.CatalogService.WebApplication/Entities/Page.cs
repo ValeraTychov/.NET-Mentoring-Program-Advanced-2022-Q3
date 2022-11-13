@@ -1,7 +1,20 @@
-﻿namespace OnlineShop.CatalogService.WebApplication.Entities;
+﻿using OnlineShop.CatalogService.WebApplication.Pagination;
+
+namespace OnlineShop.CatalogService.WebApplication.Entities;
 
 public class Page<T>
 {
+    public Page()
+    {
+    }
+
+    public Page(List<T> content, int totalItems, int pageNumber, int pageSize)
+    {
+        Content = content;
+        Number = pageNumber;
+        Total = PageCalculator.CalcTotalPages(totalItems, pageSize);
+    }
+
     public List<T> Content { get; set; }
 
     public int Number { get; set; }
