@@ -6,7 +6,6 @@ using OnlineShop.CartService.WebApplication.Entities;
 namespace OnlineShop.CartService.WebApplication.Controllers.V1;
 
 [ApiController]
-//[ApiVersion("1.0")]
 [Route("api/v1/[controller]")]
 public class CartController : ControllerBase
 {
