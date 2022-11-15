@@ -7,7 +7,7 @@ public class CartRepository : ICartRepository
 {
     private readonly string _connectionString = "MyData.db";
 
-    public Cart? Get(Guid cartId)
+    public Cart Get(Guid cartId)
     {
         Cart? cart = null;
         ManipulateCollection<Cart>(c => cart = c.FindOne(x => x.Id == cartId));
@@ -17,14 +17,20 @@ public class CartRepository : ICartRepository
 
     public void AddOrUpdate(Cart cart)
     {
-        ManipulateCollection<Cart>(c => c.Update(cart));
+        ManipulateCollection<Cart>(c =>
+        {
+            if (!c.Update(cart))
+            {
+                c.Insert(cart);
+            }
+        });
     }
 
     private void ManipulateCollection<T>(Action<ILiteCollection<T>> action)
     {
         using (var db = new LiteDatabase(_connectionString))
         {
-            var collection = db.GetCollection<T>();
+            var collection = db.GetCollection<T>("carts");
             action(collection);
         }
     }

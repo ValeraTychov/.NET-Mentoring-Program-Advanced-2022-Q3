@@ -4,7 +4,7 @@ namespace OnlineShop.CartService.DAL;
 
 public interface ICartRepository
 {
-    public Cart? Get(Guid cartId);
+    public Cart Get(Guid cartId);
 
     public void AddOrUpdate(Cart cart);
 }

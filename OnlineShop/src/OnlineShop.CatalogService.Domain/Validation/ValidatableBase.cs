@@ -8,9 +8,4 @@ public class ValidatableBase<TEntity> : IValidatable where TEntity : Validatable
     {
         return EntityValidator.Validate((TEntity)this);
     }
-
-    public void SetValidator(ValidatorBase<TEntity> validator)
-    {
-        this.EntityValidator = validator ?? throw new ArgumentNullException(nameof(validator));
-    }
 }

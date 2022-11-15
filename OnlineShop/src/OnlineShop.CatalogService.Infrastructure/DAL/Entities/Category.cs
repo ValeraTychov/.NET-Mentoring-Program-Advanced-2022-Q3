@@ -8,5 +8,7 @@ public class Category
 
     public Uri? Image { get; set; }
 
+    public int? ParentId { get; set; }
+
     public Category? Parent { get; set; }
 }

@@ -17,6 +17,11 @@ public class CartService : ICartService
         _cartRepository = cartRepository;
     }
 
+    public Cart? GetCart(Guid cartId)
+    {
+        return _mapper.Map<Cart>(_cartRepository.Get(cartId));
+    }
+
     public IEnumerable<Item> GetItems(Guid cartId)
     {
         var cart = GetCart(cartId);
@@ -44,11 +49,6 @@ public class CartService : ICartService
 
         cart.RemoveItem(itemId);
         AddOrUpdate(cart);
-    }
-
-    private Cart? GetCart(Guid cartId)
-    {
-        return _mapper.Map<Cart>(_cartRepository.Get(cartId));
     }
 
     private void AddOrUpdate(Cart cart)

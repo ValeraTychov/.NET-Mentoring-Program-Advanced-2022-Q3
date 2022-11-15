@@ -1,50 +1,66 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.CatalogService.Domain;
+using System.Xml;
 
 namespace OnlineShop.CatalogService.Infrastructure.DAL;
 
 public class GenericRepository<TEntity, TDalEntity> : IRepository<TEntity>, IDisposable where TDalEntity : class
 {
-    private readonly DbContext _dbContext;
-    private readonly DbSet<TDalEntity> _entities;
-    private readonly IMapper _mapper;
+    protected readonly DbContext DbContext;
+    protected readonly DbSet<TDalEntity> Entities;
+    protected readonly IMapper Mapper;
 
     public GenericRepository(IMapper mapper, DbContext dbContext)
     {
-        _mapper = mapper;
-        _dbContext = dbContext;
-        _entities = dbContext.Set<TDalEntity>();
+        Mapper = mapper;
+        DbContext = dbContext;
+        Entities = dbContext.Set<TDalEntity>();
     }
+
+    public Type Type => typeof(TEntity);
 
     public IEnumerable<TEntity> Get()
     {
-        return _entities.Select(dalEntity => _mapper.Map<TEntity>(dalEntity)).ToArray();
+        return Entities.Select(dalEntity => Mapper.Map<TEntity>(dalEntity)).ToArray();
     }
 
     public TEntity Get(int id)
     {
-        return _mapper.Map<TEntity>(_entities.Find(id));
+        return Mapper.Map<TEntity>(Entities.Find(id));
     }
 
-    public void Add(TEntity entity)
+    public virtual void Add(TEntity entity)
     {
-        _entities.Add(_mapper.Map<TDalEntity>(entity));
-        _dbContext.SaveChanges();
+        var dalEntity = Mapper.Map<TDalEntity>(entity);
+        Add(dalEntity);
     }
-    public void Update(TEntity entity)
+
+    protected void Add(TDalEntity dalEntity)
     {
-        _entities.Update(_mapper.Map<TDalEntity>(entity));
-        _dbContext.SaveChanges();
+        Entities.Add(dalEntity);
+        DbContext.SaveChanges();
+    }
+
+    public virtual void Update(TEntity entity)
+    {
+        var dalEntity = Mapper.Map<TDalEntity>(entity);
+        Update(dalEntity);
+    }
+
+    protected void Update(TDalEntity dalEntity)
+    {
+        Entities.Update(dalEntity);
+        DbContext.SaveChanges();
     }
 
     public void Delete(int id)
     {  
-        _entities.Remove(_entities.Find(id));
+        Entities.Remove(Entities.Find(id));
     }
 
     public void Dispose()
     {
-        _dbContext.Dispose();
+        DbContext.Dispose();
     }
 }

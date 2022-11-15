@@ -1,18 +1,16 @@
-﻿namespace OnlineShop.CatalogService.Infrastructure.DAL.Entities;
+﻿namespace OnlineShop.CatalogService.WebApplication.Entities;
 
 public class Item
 {
-    public int Id { get; set; }
+    public int? Id { get; set; }
 
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     public string? Description { get; set; }
 
     public Uri? Image { get; set; }
 
     public int CategoryId { get; set; }
-
-    public Category Category { get; set; }
     
     public decimal Price { get; set; }
 
