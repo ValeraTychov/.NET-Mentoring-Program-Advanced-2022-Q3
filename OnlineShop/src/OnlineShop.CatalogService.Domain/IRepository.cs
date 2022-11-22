@@ -8,7 +8,7 @@ public interface IRepository<TEntity>
 
     void Add(TEntity entity);
 
-    void Update(TEntity entity);
+    void Update(TEntity item);
 
     void Delete(int id);
 }

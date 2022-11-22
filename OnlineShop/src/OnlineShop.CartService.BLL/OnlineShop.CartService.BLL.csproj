@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OnlineShop.CartService.DAL\OnlineShop.CartService.DAL.csproj" />
+    <ProjectReference Include="..\OnlineShop.Messaging.Abstraction\OnlineShop.Messaging.Abstraction.csproj" />
   </ItemGroup>
 
 </Project>

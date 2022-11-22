@@ -37,12 +37,12 @@ public class CategoryRepository : GenericRepository<Category, DalCategory>, ICat
         base.Add(dalCategory);
     }
 
-    public override void Update(Category category)
+    public override void Update(Category item)
     {
-        var dalCategory = Mapper.Map<DalCategory>(category);
+        var dalCategory = Mapper.Map<DalCategory>(item);
         if (dalCategory.Parent == null)
         {
-            base.Update(category);
+            base.Update(item);
             return;
         }
         

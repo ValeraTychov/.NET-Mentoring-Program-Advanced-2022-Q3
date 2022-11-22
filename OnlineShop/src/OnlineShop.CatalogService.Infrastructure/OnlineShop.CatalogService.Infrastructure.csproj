@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OnlineShop.CatalogService.Domain\OnlineShop.CatalogService.Domain.csproj" />
+    <ProjectReference Include="..\OnlineShop.Messaging.Abstraction\OnlineShop.Messaging.Abstraction.csproj" />
   </ItemGroup>
 
 </Project>

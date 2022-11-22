@@ -7,6 +7,14 @@ public class CartRepository : ICartRepository
 {
     private readonly string _connectionString = "MyData.db";
 
+    public IEnumerable<Cart> Get()
+    {
+        IEnumerable<Cart> collection = null;
+        ManipulateCollection<Cart>(c => collection = c.FindAll().ToArray());
+
+        return collection;
+    }
+
     public Cart Get(Guid cartId)
     {
         Cart? cart = null;

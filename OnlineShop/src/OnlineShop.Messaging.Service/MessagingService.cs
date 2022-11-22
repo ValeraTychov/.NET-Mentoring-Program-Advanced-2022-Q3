@@ -1,5 +1,5 @@
-﻿using System.Linq.Expressions;
-using OnlineShop.Messaging.Abstraction;
+﻿using OnlineShop.Messaging.Abstraction;
+using OnlineShop.Messaging.Abstraction.Entities;
 using OnlineShop.Messaging.Service.Models;
 using OnlineShop.Messaging.Service.Storage;
 
@@ -19,12 +19,12 @@ public class MessagingService : IMessagingService
         _busHandler = new BusHandler(settings, _publisherStorage, _subscriptionStorage);
     }
 
-    public void Publish<T>(T message)
+    public void Publish(EventParameters eventParameters)
     {
-        _publisherStorage.Publish(message);
+        _publisherStorage.Publish(eventParameters);
     }
 
-    public void Subscribe<TEventArgs>(EventHandler<TEventArgs> handler)
+    public void Subscribe<TEventParameters>(Action<TEventParameters> handler) where TEventParameters : EventParameters
     {
         _subscriptionStorage.Subscribe(handler);
     }
@@ -36,7 +36,7 @@ public class MessagingService : IMessagingService
             Host = "localhost",
             Username = "planck",
             Password = "planck",
-            Queues = new List<string> { "CatalogService" },
+            Queues = new List<Type> { typeof(ItemChangedParameters) },
         };
     }
 }

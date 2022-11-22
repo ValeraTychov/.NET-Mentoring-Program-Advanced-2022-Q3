@@ -6,10 +6,12 @@ namespace OnlineShop.CatalogService.Domain;
 public class ItemService : IItemService
 {
     private readonly IItemRepository _itemRepository;
+    private readonly IBusPublisher _busPublisher;
 
-    public ItemService(IItemRepository itemRepository)
+    public ItemService(IItemRepository itemRepository, IBusPublisher busPublisher)
     {
         _itemRepository = itemRepository;
+        _busPublisher = busPublisher;
     }
 
     public Range<Item> GetRange(int from = 0, int to = int.MaxValue)
@@ -38,7 +40,16 @@ public class ItemService : IItemService
 
     public IOperationResult Update(Item item)
     {
-        return AddOrUpdate(item, (e, r) => r.Update(e));
+        var result = AddOrUpdate(item, (e, r) => r.Update(e));
+        
+        if (!result.IsSuccess)
+        {
+            return result;
+        }
+
+        _busPublisher.PublishItemChanged(item, DateTime.UtcNow);
+
+        return result;
     }
 
     private IOperationResult AddOrUpdate(Item item, Action<Item, IItemRepository> action)

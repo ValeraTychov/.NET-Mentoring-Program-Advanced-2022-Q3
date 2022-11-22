@@ -13,6 +13,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OnlineShop.CartService.BLL\OnlineShop.CartService.BLL.csproj" />
+    <ProjectReference Include="..\OnlineShop.Messaging.Abstraction\OnlineShop.Messaging.Abstraction.csproj" />
+    <ProjectReference Include="..\OnlineShop.Messaging.Service\OnlineShop.Messaging.Service.csproj" />
   </ItemGroup>
 
 </Project>

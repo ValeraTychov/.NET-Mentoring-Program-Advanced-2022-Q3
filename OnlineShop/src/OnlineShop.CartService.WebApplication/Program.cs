@@ -4,6 +4,8 @@ using OnlineShop.CartService.BLL;
 using OnlineShop.CartService.DAL;
 using OnlineShop.CartService.WebApplication;
 using OnlineShop.CartService.WebApplication.Controllers.V2;
+using OnlineShop.Messaging.Abstraction;
+using OnlineShop.Messaging.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +35,7 @@ builder.Services.AddSwaggerGen(config =>
 });
 
 builder.Services.AddScoped<IMapper>(CreateMapper);
+builder.Services.AddSingleton<IMessagingService, MessagingService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<CartController>();
@@ -40,15 +43,12 @@ builder.Services.AddScoped<CartController>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(config =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(config =>
-    {
-        config.SwaggerEndpoint("/swagger/v1/swagger.json", "Carting API v1");
-        config.SwaggerEndpoint("/swagger/v2/swagger.json", "Carting API v2");
-    });
-}
+    config.SwaggerEndpoint("../swagger/v1/swagger.json", "Carting API v1");
+    config.SwaggerEndpoint("../swagger/v2/swagger.json", "Carting API v2");
+});
 
 app.UseHttpsRedirection();
 

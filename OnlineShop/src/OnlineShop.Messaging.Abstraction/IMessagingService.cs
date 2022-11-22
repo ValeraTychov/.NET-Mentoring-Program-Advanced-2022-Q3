@@ -1,9 +1,10 @@
-﻿namespace OnlineShop.Messaging.Abstraction;
+﻿using OnlineShop.Messaging.Abstraction.Entities;
+
+namespace OnlineShop.Messaging.Abstraction;
 
 public interface IMessagingService
 {
-    public void Publish<T>(T message);
+    public void Publish(EventParameters eventParameters);
 
-    public void Subscribe<TEventArgs>(EventHandler<TEventArgs> handler);
-
+    public void Subscribe<TEventParameters>(Action<TEventParameters> handler) where TEventParameters : EventParameters;
 }

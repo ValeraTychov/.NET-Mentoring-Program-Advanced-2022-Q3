@@ -1,28 +1,27 @@
 ﻿using System.Collections.Concurrent;
-using OnlineShop.Messaging.Service.Models;
+using OnlineShop.Messaging.Abstraction.Entities;
 
 namespace OnlineShop.Messaging.Service.Storage;
 
 public class PublisherStorage
 {
-    private readonly ConcurrentQueue<Message> _messageBuffer = new();
+    private readonly ConcurrentQueue<EventParameters> _messageBuffer = new();
 
     public EventHandler MessageReceived;
 
-    public void Publish<T>(T data)
+    public void Publish(EventParameters eventParameters)
     {
-        var message = new Message(data);
-        _messageBuffer.Enqueue(message);
+        _messageBuffer.Enqueue(eventParameters);
         MessageReceived?.Invoke(this, EventArgs.Empty);
     }
 
-    public bool TryPeek(out Message message)
+    public bool TryPeek(out EventParameters eventParameters)
     {
-        return _messageBuffer.TryPeek(out message);
+        return _messageBuffer.TryPeek(out eventParameters);
     }
 
-    public bool TryDequeue(out Message message)
+    public bool TryDequeue(out EventParameters eventParameters)
     {
-        return _messageBuffer.TryDequeue(out message);
+        return _messageBuffer.TryDequeue(out eventParameters);
     }
 }

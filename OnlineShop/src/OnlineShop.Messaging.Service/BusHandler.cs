@@ -1,10 +1,10 @@
-﻿using System.Reflection;
-using OnlineShop.Messaging.Service.Models;
+﻿using OnlineShop.Messaging.Service.Models;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Newtonsoft.Json;
 using OnlineShop.Messaging.Service.Storage;
 using System.Text;
+using OnlineShop.Messaging.Abstraction.Entities;
 
 namespace OnlineShop.Messaging.Service;
 
@@ -13,7 +13,7 @@ public class BusHandler : IDisposable
     private readonly PublisherStorage _publisherStorage;
     private readonly SubscriptionStorage _subscriptionStorage;
     private readonly IConnectionFactory _connectionFactory;
-    private readonly List<string> _queues;
+    private Dictionary<string, Type> _queueMap;
     private ConnectionContext _context;
 
     private int _locked;
@@ -30,10 +30,15 @@ public class BusHandler : IDisposable
             Password = settings.Password,
         };
 
-        _queues = settings.Queues;
-        _context = CreateConnectionContext(_connectionFactory, _queues);
+        FillQueueMap(settings.Queues);
+        _context = CreateConnectionContext(_connectionFactory, _queueMap.Keys.ToList());
         SetupContext();
         PublishMessages(this, EventArgs.Empty);
+    }
+
+    private void FillQueueMap(List<Type> queues)
+    {
+        _queueMap = queues.ToDictionary(x => x.Name, x => x);
     }
     
     private ConnectionContext CreateConnectionContext(IConnectionFactory connectionFactory, List<string> queues)
@@ -89,24 +94,25 @@ public class BusHandler : IDisposable
         }
     }
 
-    private void PublishMessage(Message message)
+    private void PublishMessage(EventParameters eventParameters)
     {
-        var properties = _context.Channel.CreateBasicProperties();
-        properties.Headers = new Dictionary<string, object>();
-        properties.Headers.Add(new KeyValuePair<string, object>("type", message.Type));
-
-        var str = JsonConvert.SerializeObject(message.Data);
+        var str = JsonConvert.SerializeObject(eventParameters);
         var body = Encoding.UTF8.GetBytes(str);
-        _context.Channel.BasicPublish(string.Empty, "CatalogService", true, properties, body);
+        _context.Channel.BasicPublish(string.Empty, eventParameters.GetType().Name, true, null, body);
     }
 
     private void OnConsumerReceived(object sender, BasicDeliverEventArgs args)
     {
-        var type = Type.GetType(Encoding.UTF8.GetString((byte[])args.BasicProperties.Headers["type"]));
+        var type = _queueMap[args.RoutingKey];
         string body = Encoding.UTF8.GetString(args.Body.ToArray());
-        dynamic eventArgs = JsonConvert.DeserializeObject(body, type);
+        var parameters = JsonConvert.DeserializeObject(body, type);
 
-        if (_subscriptionStorage.TryInvoke(eventArgs))
+        var result = (bool)(typeof(SubscriptionStorage)
+            .GetMethod(nameof(_subscriptionStorage.TryInvoke))
+            ?.MakeGenericMethod(type)
+            .Invoke(_subscriptionStorage, new[] { parameters }) ?? false);
+        
+        if (result)
         {
             _context.Channel.BasicAck(args.DeliveryTag, false);
         }
@@ -115,7 +121,7 @@ public class BusHandler : IDisposable
     private void OnConnectionShutdown(object? sender, ShutdownEventArgs eventArgs)
     {
         _context.Dispose();
-        _context = CreateConnectionContext(_connectionFactory, _queues);
+        _context = CreateConnectionContext(_connectionFactory, _queueMap.Keys.ToList());
         SetupContext();
     }
 

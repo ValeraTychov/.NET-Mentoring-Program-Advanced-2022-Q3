@@ -38,6 +38,16 @@ public class ItemRepository : GenericRepository<Item, DalItem>, IItemRepository
         base.Add(dalItem);
     }
 
+    public override void Update(Item item)
+    {
+        var dalItem = Mapper.Map<DalItem>(item);
+        
+        var parentFromDb = DbContext.Set<DalCategory>().FirstOrDefault(c => c.Id == dalItem.CategoryId);
+        dalItem.Category = parentFromDb;
+
+        base.Update(dalItem);
+    }
+
     public IEnumerable<Item> GetRange(int from = 0, int to = int.MaxValue)
     {
         var count = to - from;

@@ -42,9 +42,9 @@ public class GenericRepository<TEntity, TDalEntity> : IRepository<TEntity>, IDis
         DbContext.SaveChanges();
     }
 
-    public virtual void Update(TEntity entity)
+    public virtual void Update(TEntity item)
     {
-        var dalEntity = Mapper.Map<TDalEntity>(entity);
+        var dalEntity = Mapper.Map<TDalEntity>(item);
         Update(dalEntity);
     }
 

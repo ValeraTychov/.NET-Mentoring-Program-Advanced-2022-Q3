@@ -2,6 +2,7 @@
 using AutoMapper;
 using OnlineShop.CartService.DAL;
 using OnlineShop.CartService.BLL.Entities;
+using OnlineShop.Messaging.Abstraction;
 
 namespace OnlineShop.CartService.BLL.Test;
 
@@ -13,7 +14,8 @@ public class CartServiceTests
     {
         var repository = new Mock<ICartRepository>();
         var mapper = new Mock<IMapper>();
-        var service = new CartService(mapper.Object, repository.Object);
+        var messagingService = new Mock<IMessagingService>();
+        var service = new CartService(mapper.Object, repository.Object, messagingService.Object);
         var guid = Guid.NewGuid();
         
         service.GetItems(guid);
@@ -27,9 +29,10 @@ public class CartServiceTests
     {
         var repository = new Mock<ICartRepository>();
         var mapper = new Mock<IMapper>();
+        var messagingService = new Mock<IMessagingService>();
         mapper.Setup(m => m.Map<Cart>(It.IsAny<DAL.Entities.Cart>())).Returns<Cart>(null);
         var item = Mock.Of<Item>();
-        var service = new CartService(mapper.Object, repository.Object);
+        var service = new CartService(mapper.Object, repository.Object, messagingService.Object);
         
         service.AddItem(Guid.NewGuid(), item);
 
@@ -42,10 +45,11 @@ public class CartServiceTests
     {
         var repository = new Mock<ICartRepository>();
         var mapper = new Mock<IMapper>();
+        var messagingService = new Mock<IMessagingService>();
         Cart? cart = null;
         mapper.Setup(m => m.Map<Cart?>(It.IsAny<DAL.Entities.Cart>())).Returns(cart);
         var item = new Item { Quantity = 42 };
-        var service = new CartService(mapper.Object, repository.Object);
+        var service = new CartService(mapper.Object, repository.Object, messagingService.Object);
         
         service.AddItem(Guid.NewGuid(), item);
 
@@ -57,10 +61,11 @@ public class CartServiceTests
     {
         var itemInCart = new Item { Quantity = 2 };
         var repository = new Mock<ICartRepository>();
+        var messagingService = new Mock<IMessagingService>();
         var mapper = new Mock<IMapper>();
         mapper.Setup(m => m.Map<Cart>(It.IsAny<DAL.Entities.Cart>())).Returns(new Cart { Items = new List<Item> { itemInCart } });
         var itemToAdd = new Item { Quantity = 2 };
-        var service = new CartService(mapper.Object, repository.Object);
+        var service = new CartService(mapper.Object, repository.Object, messagingService.Object);
         
         service.AddItem(Guid.NewGuid(), itemToAdd);
 

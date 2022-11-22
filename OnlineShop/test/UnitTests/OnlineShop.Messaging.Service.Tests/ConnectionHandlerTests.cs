@@ -1,11 +1,6 @@
-using System.Diagnostics;
-using System.Security.Cryptography;
-using System.Threading.Channels;
-using OnlineShop.Messaging.Service.EventArguments;
+using OnlineShop.Messaging.Abstraction.Entities;
 using OnlineShop.Messaging.Service.Models;
 using OnlineShop.Messaging.Service.Storage;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
 
 namespace OnlineShop.Messaging.Service.Tests
 {
@@ -17,7 +12,7 @@ namespace OnlineShop.Messaging.Service.Tests
             Host = "localhost",
             Username = "planck",
             Password = "planck",
-            Queues = new List<string> { "CatalogService" },
+            Queues = new List<Type> { typeof(TestEventParameters) },
         };
         private PublisherStorage _publisherStorage = new PublisherStorage();
         private SubscriptionStorage _subscriptionStorage = new SubscriptionStorage();
@@ -26,24 +21,38 @@ namespace OnlineShop.Messaging.Service.Tests
         public void Publish()
         {
             using var bh = new BusHandler(_settings, _publisherStorage, _subscriptionStorage);
-            var message = new TestEventArgs { Id = 42, Name = "Test" };
+            var message = new TestEventParameters { Id = 42, Name = "Test" };
             _publisherStorage.Publish(message);
-
         }
 
         [TestMethod]
         public void Subscribe()
         {
+            EventWaitHandle waitHandle = new ManualResetEvent(false);
             using var bh = new BusHandler(_settings, _publisherStorage, _subscriptionStorage);
-            var expected = new TestEventArgs { Id = 42, Name = "Test" };
+            var expected = new TestEventParameters { Id = 42, Name = "Test" };
 
-            _subscriptionStorage.Subscribe<TestEventArgs>(OnMessageReceived);
-            Thread.Sleep(10000);
+            _subscriptionStorage.Subscribe<TestEventParameters>(OnMessageReceived);
 
-            void OnMessageReceived(object o, TestEventArgs e)
+            TestEventParameters? result = null;
+
+            waitHandle.WaitOne(5000);
+            
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expected.Id, result.Id);
+
+            void OnMessageReceived(TestEventParameters parameters)
             {
-                Assert.AreEqual(expected.Id, e.Id);
+                result = parameters;
+                waitHandle.Set();
             }
+        }
+
+        private class TestEventParameters : EventParameters
+        {
+            public int Id { get; set; }
+
+            public string Name { get; set; }
         }
     }
 }

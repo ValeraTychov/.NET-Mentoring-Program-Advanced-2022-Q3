@@ -1,4 +1,5 @@
-﻿using OnlineShop.Messaging.Service.Extensions;
+﻿using OnlineShop.Messaging.Abstraction.Entities;
+using OnlineShop.Messaging.Service.Extensions;
 
 namespace OnlineShop.Messaging.Service.Storage;
 
@@ -6,26 +7,26 @@ public class SubscriptionStorage
 {
     private readonly Dictionary<Type, object> _handlers = new();
 
-    public void Subscribe<TEventArgs>(EventHandler<TEventArgs> newHandler)
+    public void Subscribe<TEventParameters>(Action<TEventParameters> newHandler) where TEventParameters : EventParameters
     {
-        if (!_handlers.TryGetValueAs(typeof(TEventArgs), out EventHandler<TEventArgs>? existedHandler))
+        if (!_handlers.TryGetValueAs(typeof(TEventParameters), out Action<TEventParameters>? existedHandler))
         {
-            _handlers.Add(typeof(TEventArgs), newHandler);
+            _handlers.Add(typeof(TEventParameters), newHandler);
             return;
         }
 
         var combinedHandler = existedHandler + newHandler;
-        _handlers[typeof(TEventArgs)] = combinedHandler;
+        _handlers[typeof(TEventParameters)] = combinedHandler;
     }
 
-    public bool TryInvoke<TEventArgs>(TEventArgs parameters)
+    public bool TryInvoke<TEventParameters>(TEventParameters parameters)
     {
-        if (!_handlers.TryGetValueAs(typeof(TEventArgs), out EventHandler<TEventArgs>? handler))
+        if (!_handlers.TryGetValueAs(typeof(TEventParameters), out Action<TEventParameters>? handler))
         {
             return false;
         }
 
-        handler!.Invoke(this, parameters);
+        handler!.Invoke(parameters);
 
         return true;
     }

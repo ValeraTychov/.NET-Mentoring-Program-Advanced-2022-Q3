@@ -1,4 +1,7 @@
-﻿namespace OnlineShop.Messaging.Service.Models;
+﻿using System.Reflection.Metadata.Ecma335;
+using OnlineShop.Messaging.Abstraction.Entities;
+
+namespace OnlineShop.Messaging.Service.Models;
 
 public class Settings
 {
@@ -8,5 +11,5 @@ public class Settings
 
     public string Password { get; set; }
 
-    public List<string> Queues { get; set; }
+    public List<Type> Queues { get; set; }
 }

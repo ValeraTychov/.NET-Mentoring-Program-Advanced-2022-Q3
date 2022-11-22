@@ -18,6 +18,12 @@ public class CartController : ControllerBase
         _mapper = mapper;
     }
 
+    [HttpGet("Carts")]
+    public IEnumerable<Cart> Get()
+    {
+        return _cartService.GetCarts().Select(bc => _mapper.Map<Cart>(bc));
+    }
+
     [HttpGet("{cartId}")]
     public Cart Get(Guid cartId)
     {

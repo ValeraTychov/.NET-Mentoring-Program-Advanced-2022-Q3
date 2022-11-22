@@ -1,8 +1,11 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.CatalogService.Domain;
+using OnlineShop.CatalogService.Infrastructure.Adapters;
 using OnlineShop.CatalogService.Infrastructure.DAL;
 using OnlineShop.CatalogService.WebApplication.MappingProfiles;
+using OnlineShop.Messaging.Abstraction;
+using OnlineShop.Messaging.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +15,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped(CreateMapper);
+builder.Services.AddSingleton(CreateMapper);
 builder.Services.AddScoped<DbContext>(sp => new CatalogContext());
+builder.Services.AddSingleton<IMessagingService, MessagingService>();
+builder.Services.AddSingleton<IBusPublisher, BusPublisherAdapter>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -21,11 +26,8 @@ builder.Services.AddScoped<IItemRepository, ItemRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
