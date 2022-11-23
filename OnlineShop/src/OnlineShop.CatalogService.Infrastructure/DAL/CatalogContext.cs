@@ -5,6 +5,11 @@ namespace OnlineShop.CatalogService.Infrastructure.DAL;
 
 public class CatalogContext : DbContext
 {
+    public CatalogContext()
+    {
+        Database.EnsureCreated();
+    }
+
     public DbSet<Category> Categories { get; set; }
 
     public DbSet<Item> Items { get; set; }
@@ -12,6 +17,6 @@ public class CatalogContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(
-            @"Server=(localdb)\mssqllocaldb;Database=OnlineShop.Catalog;Trusted_Connection=True");
+            @"Data Source=EPPLWROW0400\SQLEXPRESS;Initial Catalog=OnlineShop.Catalog;user id=sa;password=omega9999#;;Connect Timeout=30;");
     }
 }

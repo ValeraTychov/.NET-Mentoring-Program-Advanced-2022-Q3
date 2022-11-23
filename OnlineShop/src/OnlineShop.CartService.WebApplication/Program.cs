@@ -5,6 +5,7 @@ using OnlineShop.CartService.DAL;
 using OnlineShop.CartService.WebApplication;
 using OnlineShop.CartService.WebApplication.Controllers.V2;
 using OnlineShop.Messaging.Abstraction;
+using OnlineShop.Messaging.Abstraction.Entities;
 using OnlineShop.Messaging.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,7 +35,8 @@ builder.Services.AddSwaggerGen(config =>
     });
 });
 
-builder.Services.AddScoped<IMapper>(CreateMapper);
+builder.Services.AddScoped(CreateMapper);
+builder.Services.AddSingleton(GetSettings);
 builder.Services.AddSingleton<IMessagingService, MessagingService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
@@ -68,4 +70,15 @@ IMapper CreateMapper(IServiceProvider serviceProvider)
     });
 
     return mapperConfiguration.CreateMapper();
+}
+
+Settings GetSettings(IServiceProvider serviceProvider)
+{
+    return new Settings
+    {
+        Host = "localhost",
+        Username = "planck",
+        Password = "planck",
+        QueuesToListen = new List<Type> { typeof(ItemChangedParameters) },
+    };
 }

@@ -83,7 +83,7 @@ public class CartService : ICartService
 
     private void UpdateItem(Item item, ItemChangedParameters eventParameters)
     {
-        item.Image.Url = eventParameters.Image.AbsoluteUri;
+        item.Image.Url = eventParameters.Image?.AbsoluteUri;
         item.Name = eventParameters.Name;
         item.Price = eventParameters.Price;
     }

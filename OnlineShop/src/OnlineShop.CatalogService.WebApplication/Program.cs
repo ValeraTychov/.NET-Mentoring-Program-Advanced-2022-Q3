@@ -16,6 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton(CreateMapper);
+builder.Services.AddSingleton(GetSettings);
 builder.Services.AddScoped<DbContext>(sp => new CatalogContext());
 builder.Services.AddSingleton<IMessagingService, MessagingService>();
 builder.Services.AddSingleton<IBusPublisher, BusPublisherAdapter>();
@@ -47,4 +48,15 @@ IMapper CreateMapper(IServiceProvider serviceProvider)
         });
 
     return mapperConfiguration.CreateMapper();
+}
+
+Settings GetSettings(IServiceProvider serviceProvider)
+{
+    return new Settings
+    {
+        Host = "localhost",
+        Username = "planck",
+        Password = "planck",
+        QueuesToListen = new(),
+    };
 }

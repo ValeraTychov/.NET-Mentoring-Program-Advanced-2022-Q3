@@ -1,6 +1,5 @@
 ﻿using OnlineShop.Messaging.Abstraction;
 using OnlineShop.Messaging.Abstraction.Entities;
-using OnlineShop.Messaging.Service.Models;
 using OnlineShop.Messaging.Service.Storage;
 
 namespace OnlineShop.Messaging.Service;
@@ -11,9 +10,8 @@ public class MessagingService : IMessagingService, IDisposable
     private readonly SubscriptionStorage _subscriptionStorage;
     private readonly BusHandler _busHandler;
 
-    public MessagingService()
+    public MessagingService(Settings settings)
     {
-        var settings = LoadSettingsFromConfig();
         _publisherStorage = new PublisherStorage();
         _subscriptionStorage = new SubscriptionStorage();
         _busHandler = new BusHandler(settings, _publisherStorage, _subscriptionStorage);
@@ -28,18 +26,7 @@ public class MessagingService : IMessagingService, IDisposable
     {
         _subscriptionStorage.Subscribe(handler);
     }
-
-    private Settings LoadSettingsFromConfig()
-    {
-        return new Settings
-        {
-            Host = "localhost",
-            Username = "planck",
-            Password = "planck",
-            Queues = new List<Type> { typeof(ItemChangedParameters) },
-        };
-    }
-
+    
     public void Dispose()
     {
         _busHandler.Dispose();

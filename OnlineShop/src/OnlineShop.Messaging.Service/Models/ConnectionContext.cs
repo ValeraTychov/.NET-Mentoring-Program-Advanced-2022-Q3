@@ -6,15 +6,26 @@ namespace OnlineShop.Messaging.Service.Models;
 public class ConnectionContext : IDisposable
 {
     private readonly IConnection _connection;
-    private readonly IModel _listenerChannel;
-    private readonly EventingBasicConsumer _consumer;
+    private readonly IModel _channel;
+    private EventingBasicConsumer? _consumer;
 
-    public ConnectionContext(IConnectionFactory connectionFactory, List<string> queues)
+    public ConnectionContext(IConnectionFactory connectionFactory, List<string>? queues = null)
     {
         _connection = connectionFactory.CreateConnection();
         _connection.ConnectionShutdown += OnConnectionShutdown;
-        _listenerChannel = _connection.CreateModel();
-        _consumer = new EventingBasicConsumer(_listenerChannel);
+        _channel = _connection.CreateModel();
+
+        if (queues == null || !queues.Any())
+        {
+            return;
+        }
+
+        SetupListener(queues);
+    }
+
+    public void SetupListener(List<string> queues)
+    {
+        _consumer = new EventingBasicConsumer(_channel);
         DeclareQueues(queues);
         SetupConsumer(queues);
     }
@@ -22,21 +33,20 @@ public class ConnectionContext : IDisposable
     public event EventHandler<BasicDeliverEventArgs>? EventReceived;
     public event EventHandler<ShutdownEventArgs>? ConnectionShutdown;
 
-    public IModel CreateChannel(string queue)
+    public IModel GetChannel(string queue)
     {
-        var channel = _connection.CreateModel();
-        channel.QueueDeclare(queue, false, false, false, null);
-        return channel;
+        _channel.QueueDeclare(queue, false, false, false, null);
+        return _channel;
     }
 
     public void AckReceipt(ulong deliveryTag)
     {
-        _listenerChannel.BasicAck(deliveryTag, false);
+        _channel.BasicAck(deliveryTag, false);
     }
 
     private void DeclareQueues(List<string> queues)
     {
-        queues.ForEach(queue => _listenerChannel.QueueDeclare(
+        queues.ForEach(queue => _channel.QueueDeclare(
             queue: queue,
             durable: false,
             exclusive: false,
@@ -46,7 +56,7 @@ public class ConnectionContext : IDisposable
 
     private void SetupConsumer(List<string> queues)
     {
-        queues.ForEach(queue => _listenerChannel.BasicConsume(
+        queues.ForEach(queue => _channel.BasicConsume(
             queue: queue,
             autoAck: false,
             consumer: _consumer));
@@ -66,7 +76,7 @@ public class ConnectionContext : IDisposable
     
     public void Dispose()
     {
-        _listenerChannel?.Dispose();
+        _channel?.Dispose();
         _connection?.Dispose();
     }
 }

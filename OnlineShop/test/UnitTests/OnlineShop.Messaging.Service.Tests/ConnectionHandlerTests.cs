@@ -1,5 +1,5 @@
+using OnlineShop.Messaging.Abstraction;
 using OnlineShop.Messaging.Abstraction.Entities;
-using OnlineShop.Messaging.Service.Models;
 using OnlineShop.Messaging.Service.Storage;
 
 namespace OnlineShop.Messaging.Service.Tests
@@ -12,7 +12,7 @@ namespace OnlineShop.Messaging.Service.Tests
             Host = "localhost",
             Username = "planck",
             Password = "planck",
-            Queues = new List<Type> { typeof(TestEventParameters) },
+            QueuesToListen = new List<Type> { typeof(TestEventParameters), typeof(ItemChangedParameters) },
         };
         private PublisherStorage _publisherStorage = new PublisherStorage();
         private SubscriptionStorage _subscriptionStorage = new SubscriptionStorage();

@@ -4,6 +4,7 @@ using RabbitMQ.Client.Events;
 using Newtonsoft.Json;
 using OnlineShop.Messaging.Service.Storage;
 using System.Text;
+using OnlineShop.Messaging.Abstraction;
 using OnlineShop.Messaging.Abstraction.Entities;
 
 namespace OnlineShop.Messaging.Service;
@@ -23,7 +24,7 @@ public class BusHandler : IDisposable
         _publisherStorage = publisherStorage;
         _publisherStorage.MessageReceived += PublishMessages;
         _subscriptionStorage = subscriptionStorage;
-        _queueMap = CreateQueueMap(settings.Queues);
+        _queueMap = CreateQueueMap(settings.QueuesToListen);
         _connectionFactory = CreateConnectionFactory(settings);
         
         _context = CreateConnectionContext(_connectionFactory, _queueMap.Keys.ToList());
@@ -105,7 +106,7 @@ public class BusHandler : IDisposable
         var body = Encoding.UTF8.GetBytes(str);
         var queue = eventParameters.GetType().Name;
 
-        using var channel = _context.CreateChannel(queue);
+        var channel = _context.GetChannel(queue);
         channel.BasicPublish(string.Empty, queue, true, null, body);
     }
 

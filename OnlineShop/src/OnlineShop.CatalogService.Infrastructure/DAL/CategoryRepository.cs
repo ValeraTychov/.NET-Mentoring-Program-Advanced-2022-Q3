@@ -30,7 +30,7 @@ public class CategoryRepository : GenericRepository<Category, DalCategory>, ICat
 
         if (parentFromDb == null)
         {
-            return;
+            dalCategory.ParentId = null;
         }
 
         dalCategory.Parent = parentFromDb;
