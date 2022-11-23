@@ -13,7 +13,7 @@ public class BusHandler : IDisposable
     private readonly PublisherStorage _publisherStorage;
     private readonly SubscriptionStorage _subscriptionStorage;
     private readonly IConnectionFactory _connectionFactory;
-    private Dictionary<string, Type> _queueMap;
+    private readonly Dictionary<string, Type> _queueMap;
     private ConnectionContext _context;
 
     private int _locked;
@@ -23,22 +23,27 @@ public class BusHandler : IDisposable
         _publisherStorage = publisherStorage;
         _publisherStorage.MessageReceived += PublishMessages;
         _subscriptionStorage = subscriptionStorage;
-        _connectionFactory = new ConnectionFactory
-        {
-            HostName = settings.Host,
-            UserName = settings.Username,
-            Password = settings.Password,
-        };
-
-        FillQueueMap(settings.Queues);
+        _queueMap = CreateQueueMap(settings.Queues);
+        _connectionFactory = CreateConnectionFactory(settings);
+        
         _context = CreateConnectionContext(_connectionFactory, _queueMap.Keys.ToList());
         SetupContext();
         PublishMessages(this, EventArgs.Empty);
     }
 
-    private void FillQueueMap(List<Type> queues)
+    private IConnectionFactory CreateConnectionFactory(Settings settings)
     {
-        _queueMap = queues.ToDictionary(x => x.Name, x => x);
+        return new ConnectionFactory
+        {
+            HostName = settings.Host,
+            UserName = settings.Username,
+            Password = settings.Password,
+        };
+    }
+
+    private Dictionary<string, Type> CreateQueueMap(List<Type> queues)
+    {
+        return queues.ToDictionary(x => x.Name, x => x);
     }
     
     private ConnectionContext CreateConnectionContext(IConnectionFactory connectionFactory, List<string> queues)
@@ -49,7 +54,7 @@ public class BusHandler : IDisposable
             {
                 return new ConnectionContext(connectionFactory, queues);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //Good place for logger
                 Thread.Sleep(2000);
@@ -59,11 +64,11 @@ public class BusHandler : IDisposable
 
     private void SetupContext()
     {
-        _context.Connection.ConnectionShutdown += OnConnectionShutdown;
-        _context.Consumer.Received += OnConsumerReceived;
+        _context.ConnectionShutdown += OnConnectionShutdown;
+        _context.EventReceived += OnConsumerReceived;
     }
 
-    private void PublishMessages(object sender, EventArgs args)
+    private void PublishMessages(object? sender, EventArgs args)
     {
         if (Interlocked.CompareExchange(ref _locked, 1, 0) != 0)
         {
@@ -98,24 +103,30 @@ public class BusHandler : IDisposable
     {
         var str = JsonConvert.SerializeObject(eventParameters);
         var body = Encoding.UTF8.GetBytes(str);
-        _context.Channel.BasicPublish(string.Empty, eventParameters.GetType().Name, true, null, body);
+        var queue = eventParameters.GetType().Name;
+
+        using var channel = _context.CreateChannel(queue);
+        channel.BasicPublish(string.Empty, queue, true, null, body);
     }
 
-    private void OnConsumerReceived(object sender, BasicDeliverEventArgs args)
+    private void OnConsumerReceived(object? sender, BasicDeliverEventArgs args)
     {
         var type = _queueMap[args.RoutingKey];
         string body = Encoding.UTF8.GetString(args.Body.ToArray());
-        var parameters = JsonConvert.DeserializeObject(body, type);
-
-        var result = (bool)(typeof(SubscriptionStorage)
-            .GetMethod(nameof(_subscriptionStorage.TryInvoke))
-            ?.MakeGenericMethod(type)
-            .Invoke(_subscriptionStorage, new[] { parameters }) ?? false);
+        var eventParameters = JsonConvert.DeserializeObject(body, type);
         
-        if (result)
+        if (TryNotifySubscribers(type, eventParameters))
         {
-            _context.Channel.BasicAck(args.DeliveryTag, false);
+            _context.AckReceipt(args.DeliveryTag);
         }
+    }
+
+    private bool TryNotifySubscribers(Type type, object? eventParameters)
+    {
+        return (bool)(typeof(SubscriptionStorage)
+            .GetMethod(nameof(_subscriptionStorage.TryNotifySubscribers))
+            ?.MakeGenericMethod(type)
+            .Invoke(_subscriptionStorage, new[] { eventParameters }) ?? false);
     }
 
     private void OnConnectionShutdown(object? sender, ShutdownEventArgs eventArgs)
@@ -127,6 +138,6 @@ public class BusHandler : IDisposable
 
     public void Dispose()
     {
-        _context?.Dispose();
+        _context.Dispose();
     }
 }

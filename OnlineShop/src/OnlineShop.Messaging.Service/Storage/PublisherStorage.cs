@@ -7,7 +7,7 @@ public class PublisherStorage
 {
     private readonly ConcurrentQueue<EventParameters> _messageBuffer = new();
 
-    public EventHandler MessageReceived;
+    public EventHandler? MessageReceived;
 
     public void Publish(EventParameters eventParameters)
     {

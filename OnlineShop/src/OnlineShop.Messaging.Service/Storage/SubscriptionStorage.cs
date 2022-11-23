@@ -19,7 +19,7 @@ public class SubscriptionStorage
         _handlers[typeof(TEventParameters)] = combinedHandler;
     }
 
-    public bool TryInvoke<TEventParameters>(TEventParameters parameters)
+    public bool TryNotifySubscribers<TEventParameters>(TEventParameters parameters)
     {
         if (!_handlers.TryGetValueAs(typeof(TEventParameters), out Action<TEventParameters>? handler))
         {

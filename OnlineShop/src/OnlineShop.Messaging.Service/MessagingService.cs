@@ -5,7 +5,7 @@ using OnlineShop.Messaging.Service.Storage;
 
 namespace OnlineShop.Messaging.Service;
 
-public class MessagingService : IMessagingService
+public class MessagingService : IMessagingService, IDisposable
 {
     private readonly PublisherStorage _publisherStorage;
     private readonly SubscriptionStorage _subscriptionStorage;
@@ -38,5 +38,10 @@ public class MessagingService : IMessagingService
             Password = "planck",
             Queues = new List<Type> { typeof(ItemChangedParameters) },
         };
+    }
+
+    public void Dispose()
+    {
+        _busHandler.Dispose();
     }
 }

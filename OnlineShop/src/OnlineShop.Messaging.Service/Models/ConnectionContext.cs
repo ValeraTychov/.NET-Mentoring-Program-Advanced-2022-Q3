@@ -5,23 +5,38 @@ namespace OnlineShop.Messaging.Service.Models;
 
 public class ConnectionContext : IDisposable
 {
+    private readonly IConnection _connection;
+    private readonly IModel _listenerChannel;
+    private readonly EventingBasicConsumer _consumer;
+
     public ConnectionContext(IConnectionFactory connectionFactory, List<string> queues)
     {
-        Connection = connectionFactory.CreateConnection();
-        Channel = Connection.CreateModel();
+        _connection = connectionFactory.CreateConnection();
+        _connection.ConnectionShutdown += OnConnectionShutdown;
+        _listenerChannel = _connection.CreateModel();
+        _consumer = new EventingBasicConsumer(_listenerChannel);
         DeclareQueues(queues);
         SetupConsumer(queues);
     }
 
-    public IConnection Connection { get; init; }
+    public event EventHandler<BasicDeliverEventArgs>? EventReceived;
+    public event EventHandler<ShutdownEventArgs>? ConnectionShutdown;
 
-    public IModel Channel { get; init; }
+    public IModel CreateChannel(string queue)
+    {
+        var channel = _connection.CreateModel();
+        channel.QueueDeclare(queue, false, false, false, null);
+        return channel;
+    }
 
-    public EventingBasicConsumer Consumer { get; private set; }
+    public void AckReceipt(ulong deliveryTag)
+    {
+        _listenerChannel.BasicAck(deliveryTag, false);
+    }
 
     private void DeclareQueues(List<string> queues)
     {
-        queues.ForEach(queue => Channel.QueueDeclare(
+        queues.ForEach(queue => _listenerChannel.QueueDeclare(
             queue: queue,
             durable: false,
             exclusive: false,
@@ -31,17 +46,27 @@ public class ConnectionContext : IDisposable
 
     private void SetupConsumer(List<string> queues)
     {
-        Consumer = new EventingBasicConsumer(Channel);
-        
-        queues.ForEach(queue => Channel.BasicConsume(
+        queues.ForEach(queue => _listenerChannel.BasicConsume(
             queue: queue,
             autoAck: false,
-            consumer: Consumer));
+            consumer: _consumer));
+
+        _consumer.Received += OnConsumerReceived;
+    }
+
+    private void OnConsumerReceived(object? sender, BasicDeliverEventArgs args)
+    {
+        EventReceived?.Invoke(sender, args);
+    }
+
+    private void OnConnectionShutdown(object? sender, ShutdownEventArgs args)
+    {
+        ConnectionShutdown?.Invoke(sender, args);
     }
     
     public void Dispose()
     {
-        Channel?.Dispose();
-        Connection?.Dispose();
+        _listenerChannel?.Dispose();
+        _connection?.Dispose();
     }
 }
