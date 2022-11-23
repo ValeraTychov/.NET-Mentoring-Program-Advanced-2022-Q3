@@ -23,12 +23,6 @@ namespace OnlineShop.CatalogService.WebApplication.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public IEnumerable<Item> Get()
-        {
-            return null;
-        }
-
         [Route("/api/Items/Page/{pageNumber}")]
         [HttpGet]
         public GetItemsResponse GetPage(int pageNumber)

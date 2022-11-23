@@ -50,7 +50,7 @@ public class ItemRepository : GenericRepository<Item, DalItem>, IItemRepository
 
     public IEnumerable<Item> GetRange(int from = 0, int to = int.MaxValue)
     {
-        var count = to - from;
+        var count = to - from + 1;
         return Entities.Skip(from).Take(count).AsEnumerable().Select(Mapper.Map<Item>);
     }
 
