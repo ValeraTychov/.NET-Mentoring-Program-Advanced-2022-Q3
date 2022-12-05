@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.CatalogService.Domain;
 using OnlineShop.CatalogService.WebApplication.Entities;
@@ -45,6 +46,7 @@ public class CategoryController : ControllerBase
         };
     }
 
+    [Authorize]
     [HttpGet("{id}")]
     public GetCategoryResponse? Get(int id)
     {

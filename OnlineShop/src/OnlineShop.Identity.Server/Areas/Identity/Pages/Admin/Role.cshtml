@@ -1,0 +1,38 @@
+﻿@page "{roleId?}"
+@model OnlineShop.Identity.Server.Areas.Identity.Pages.Admin.RoleModel
+
+@{
+    ViewData["Title"] = $"Role {Model.Name}";
+    ViewData["ActivePage"] = AdminNavPages.Roles;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<div class="hstack gap-5">
+    <div class="vstack col-3">
+        <p>Role claims</p>
+        <form method="post" id="RemoveRoleClaims">
+            <select name="SelectedClaimIdsToRemove" class="form-select" multiple aria-label="multiple select example">
+                @foreach (var claim in Model.RoleClaims)
+                {
+                    <option value="@claim.Id">@claim.ClaimType:@claim.ClaimValue</option>
+                }
+            </select>
+        </form>
+    </div>
+    <div class="vstack gap-2 d-flex justify-content-center">
+        <button type="submit" asp-page-handler="AddRoleClaims" form="AddRoleClaims" class="btn btn-primary btn-sm">&lt;&lt;</button>
+        <button type="submit" asp-page-handler="RemoveRoleClaims" form="RemoveRoleClaims" class="btn btn-primary btn-sm">&gt;&gt;</button>
+    </div>
+    <div class="vstack col-3">
+        <p>Available claims</p>
+        <form method="post" id="AddRoleClaims">
+            <select name="SelectedClaimIndexesToAdd" class="form-select" multiple aria-label="multiple select example">
+                @foreach (var kvp in Model.AvailableClaims)
+                {
+                    <option value="@kvp.Key">@kvp.Value.Type:@kvp.Value.Value</option>
+                }
+            </select>
+        </form>
+    </div>
+</div>

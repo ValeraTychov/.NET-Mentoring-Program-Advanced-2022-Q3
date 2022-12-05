@@ -1,0 +1,38 @@
+﻿@page "{userId?}"
+@model OnlineShop.Identity.Server.Areas.Identity.Pages.Admin.UserModel
+
+@{
+    ViewData["Title"] = $"User {Model.Name}";
+    ViewData["ActivePage"] = AdminNavPages.Users;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<div class="hstack gap-5">
+    <div class="vstack col-3">
+        <p>User roles</p>
+        <form method="post" id="RemoveUserRoles">
+            <select name="SelectedRolesToRemove" class="form-select" multiple aria-label="multiple select example">
+                @foreach (var role in Model.UserRoles)
+                {
+                    <option value="@role.Name">@role.Name</option>
+                }
+            </select>
+        </form>
+    </div>
+    <div class="vstack gap-2 d-flex justify-content-center">
+        <button type="submit" asp-page-handler="AddUserRoles" form="AddUserRoles" class="btn btn-primary btn-sm">&lt;&lt;</button>
+        <button type="submit" asp-page-handler="RemoveUserRoles" form="RemoveUserRoles" class="btn btn-primary btn-sm">&gt;&gt;</button>
+    </div>
+    <div class="vstack col-3">
+        <p>Available roles</p>
+        <form method="post" id="AddUserRoles">
+            <select name="SelectedRolesToAdd" class="form-select" multiple aria-label="multiple select example">
+                @foreach (var role in Model.AvailableRoles)
+                {
+                    <option value="@role.Name">@role.Name</option>
+                }
+            </select>
+        </form>
+    </div>
+</div>

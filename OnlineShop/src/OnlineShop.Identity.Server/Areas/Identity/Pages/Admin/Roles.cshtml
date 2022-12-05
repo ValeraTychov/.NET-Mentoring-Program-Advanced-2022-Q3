@@ -1,0 +1,32 @@
+﻿@page
+@model OnlineShop.Identity.Server.Areas.Identity.Pages.Admin.RolesModel
+@{
+    ViewData["Title"] = "Roles";
+    ViewData["ActivePage"] = AdminNavPages.Roles;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<div class="vstack gap-5">
+    <div class="vstack gap-2">
+        @foreach (var role in Model.OutputRoles)
+        {
+            <form method="post" asp-antiforgery="true">
+                <div class="hstack gap-2 container-fluid">
+                    <span class="col-6">@role.Name</span>
+                    <a type="button" href="./Role/@role.Id" class="btn btn-primary">Edit</a>
+                    <button type="submit" asp-page-handler="DeleteRole" asp-route-id="@role.Id" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        }
+    </div>
+
+    <div class="input-group mb-3">
+        <form method="post" asp-antiforgery="true">
+            <div class="hstack gap-2">
+                <input asp-for="NewRole" type="text" class="form-control col-10" placeholder="Add role" aria-label="Add role" aria-describedby="basic-addon2">
+                <button type="submit" asp-page-handler="AddNewRole" class="btn btn-primary">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
