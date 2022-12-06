@@ -1,3 +1,4 @@
+using IdentityServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Identity.Core;
@@ -42,6 +43,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
     // Cookie settings
     options.Cookie.HttpOnly = true;
+    options.Cookie.SameSite = SameSiteMode.Strict;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
     options.LoginPath = "/Identity/Account/Login";
@@ -49,12 +52,18 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
+//builder.Services.AddIdentityServer()
+//    .AddInMemoryApiScopes(Config.ApiScopes)
+//    .AddInMemoryClients(Config.Clients);
+
 var app = builder.Build();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
+
+//app.UseIdentityServer();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

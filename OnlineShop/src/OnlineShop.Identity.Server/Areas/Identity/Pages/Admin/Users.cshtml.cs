@@ -25,7 +25,20 @@ public class UsersModel : PageModel
 
     public void OnGet()
     {
-        OutputUsers = _dbContext.Users
+        OutputUsers = GetUsers();
+    }
+
+    public async void OnPostDeleteUser(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        await _userManager.DeleteAsync(user);
+
+        OutputUsers = GetUsers();
+    }
+
+    public IEnumerable<OutputUser> GetUsers()
+    {
+        return _dbContext.Users
             .Include(u => u.Roles)
             .Select(user => new OutputUser
             {
