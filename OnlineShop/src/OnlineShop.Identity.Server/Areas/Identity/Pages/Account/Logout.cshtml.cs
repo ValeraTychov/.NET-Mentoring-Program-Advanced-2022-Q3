@@ -2,9 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
+using Duende.IdentityServer.Extensions;
+using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.VisualBasic;
 using OnlineShop.Identity.Server.DataAccess.Entities;
 
 namespace OnlineShop.Identity.Server.Areas.Identity.Pages.Account
@@ -12,28 +15,44 @@ namespace OnlineShop.Identity.Server.Areas.Identity.Pages.Account
     public class LogoutModel : PageModel
     {
         private readonly SignInManager<User> _signInManager;
-        private readonly ILogger<LogoutModel> _logger;
+        private readonly IIdentityServerInteractionService _interaction;
 
-        public LogoutModel(SignInManager<User> signInManager, ILogger<LogoutModel> logger)
+        public LogoutModel(SignInManager<User> signInManager, IIdentityServerInteractionService interaction)
         {
             _signInManager = signInManager;
-            _logger = logger;
+            _interaction = interaction;
+        }
+
+        [BindProperty]
+        public string LogoutId { get; set; }
+
+        public void OnGet(string logoutId)
+        {
+            LogoutId = logoutId;
         }
 
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
             await _signInManager.SignOutAsync();
-            _logger.LogInformation("User logged out.");
-            if (returnUrl != null)
+
+            string postLogoutRedirectUri = null;
+            if (LogoutId != null)
+            {
+                var context = await _interaction.GetLogoutContextAsync(LogoutId);
+                postLogoutRedirectUri = context.PostLogoutRedirectUri;
+            }
+
+            if (!string.IsNullOrEmpty(postLogoutRedirectUri))
+            {
+                return Redirect(postLogoutRedirectUri);
+            }
+            
+            if (!string.IsNullOrEmpty(returnUrl))
             {
                 return LocalRedirect(returnUrl);
             }
-            else
-            {
-                // This needs to be a redirect so that the browser performs a new
-                // request and the identity for the user gets updated.
-                return RedirectToPage();
-            }
+
+            return RedirectToPage();
         }
     }
 }

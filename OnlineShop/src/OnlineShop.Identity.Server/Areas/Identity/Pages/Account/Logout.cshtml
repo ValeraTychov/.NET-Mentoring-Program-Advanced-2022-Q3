@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{logoutId?}"
 @model LogoutModel
 @{
     ViewData["Title"] = "Log out";
@@ -10,6 +10,7 @@
         if (User.Identity.IsAuthenticated)
         {
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                <input type="hidden" name="logoutId" value="@Model.LogoutId" />
                 <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
             </form>
         }

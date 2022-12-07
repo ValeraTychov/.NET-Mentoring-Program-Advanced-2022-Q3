@@ -32,6 +32,17 @@ public static class Config
 
                 // scopes that client has access to
                 AllowedScopes = { "api1" }
-            }
+            },
+            new Client
+            {
+                ClientId = "web",
+                ClientSecrets = { new Secret("secret".Sha256()) },
+                AllowedGrantTypes = GrantTypes.Code,
+                RedirectUris = { "https://localhost:7272/signin-oidc" },
+                PostLogoutRedirectUris = { "https://localhost:7272/signout-callback-oidc" },
+                BackChannelLogoutUri = "https://localhost:7272/signout-callback-oidc",
+                AllowOfflineAccess = true,
+                AllowedScopes = { "openid", "profile", "api1" }
+            },
         };
 }

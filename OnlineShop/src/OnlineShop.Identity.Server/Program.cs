@@ -1,3 +1,4 @@
+using Duende.IdentityServer.Models;
 using IdentityServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +12,21 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<User>()
     .AddRoles<Role>()
     .AddSignInManager<SignInManager<User>> ()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddIdentityServer()
+    .AddInMemoryIdentityResources(
+        new IdentityResource[]
+        {
+            new IdentityResources.OpenId(),
+            new IdentityResources.Profile(),
+        })
+    .AddInMemoryApiScopes(Config.ApiScopes)
+    .AddInMemoryClients(Config.Clients)
+    .AddAspNetIdentity<User>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -52,17 +64,13 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
-//builder.Services.AddIdentityServer()
-//    .AddInMemoryApiScopes(Config.ApiScopes)
-//    .AddInMemoryClients(Config.Clients);
-
 var app = builder.Build();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-//app.UseIdentityServer();
+app.UseIdentityServer();
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -4,7 +4,7 @@ namespace OnlineShop.Identity.Core;
 
 public static class ApplicationClaims
 {
-    public static string CrudType { get; } = "CRUD";
+    public static string CrudType { get; } = "AllowedCRUD";
 
     public static string CanCreate { get; } = nameof(CanCreate);
 
