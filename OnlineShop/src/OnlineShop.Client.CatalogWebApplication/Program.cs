@@ -1,4 +1,8 @@
 using System.IdentityModel.Tokens.Jwt;
+using IdentityModel;
+using Microsoft.AspNetCore.Authentication;
+using OnlineShop.Identity.Core;
+using static System.Net.WebRequestMethods;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,11 +22,15 @@ builder.Services.AddAuthentication(options =>
         options.ClientSecret = "secret";
         options.ResponseType = "code";
 
+        options.CallbackPath = "/callback";
+        
         options.Scope.Clear();
         options.Scope.Add("openid");
         options.Scope.Add("profile");
+        options.Scope.Add("catalog");
         options.GetClaimsFromUserInfoEndpoint = true;
-        
+        options.ClaimActions.MapUniqueJsonKey(JwtClaimTypes.Role, JwtClaimTypes.Role);
+        options.ClaimActions.MapUniqueJsonKey(ApplicationClaims.CrudType, ApplicationClaims.CrudType);
         options.SaveTokens = true;
     });
 

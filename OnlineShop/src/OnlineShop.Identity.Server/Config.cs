@@ -3,15 +3,24 @@
 
 
 using Duende.IdentityServer.Models;
+using OnlineShop.Identity.Core;
 
 namespace IdentityServer;
 
 public static class Config
 {
+    public static IEnumerable<IdentityResource> IdentityResources =>
+        new IdentityResource[]
+        {
+            new IdentityResources.OpenId(),
+            new IdentityResources.Profile(),
+            new IdentityResource("catalog", "Catalog", new []{ ApplicationClaims.CrudType })
+        };
+
     public static IEnumerable<ApiScope> ApiScopes =>
         new List<ApiScope>
         {
-            new ApiScope("api1", "My API")
+            new ApiScope("api1", "My API", new List<string>{ "foo" , "bar" })
         };
 
     public static IEnumerable<Client> Clients =>
@@ -20,29 +29,22 @@ public static class Config
             new Client
             {
                 ClientId = "client",
-
-                // no interactive user, use the clientid/secret for authentication
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
-
-                // secret for authentication
-                ClientSecrets =
-                {
-                    new Secret("secret".Sha256())
-                },
-
-                // scopes that client has access to
-                AllowedScopes = { "api1" }
+                ClientSecrets = { new Secret("secret".Sha256()) },
+                AllowedScopes = { "api1" },
+                AlwaysSendClientClaims = true,
+                AlwaysIncludeUserClaimsInIdToken = true,
+                
             },
             new Client
             {
                 ClientId = "web",
                 ClientSecrets = { new Secret("secret".Sha256()) },
                 AllowedGrantTypes = GrantTypes.Code,
-                RedirectUris = { "https://localhost:7272/signin-oidc" },
-                PostLogoutRedirectUris = { "https://localhost:7272/signout-callback-oidc" },
-                BackChannelLogoutUri = "https://localhost:7272/signout-callback-oidc",
+                RedirectUris = { "https://localhost:7272/callback" },
+                PostLogoutRedirectUris = { "https://localhost:7272/" },
                 AllowOfflineAccess = true,
-                AllowedScopes = { "openid", "profile", "api1" }
+                AllowedScopes = { "openid", "profile", "catalog" }
             },
         };
 }
