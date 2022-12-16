@@ -21,12 +21,11 @@ namespace OnlineShop.Messaging.Service.Tests
         public void Publish()
         {
             var connectionProvider = new ConnectionProvider(_settings);
-            var publisher = new Publisher<TestMessage>(connectionProvider);
+            using var publisher = new Publisher<TestMessage>(connectionProvider);
 
             //using var bh = new BusHandler(_settings, _publisherStorage, _subscriptionStorage);
             var message = new TestMessage { Id = 42, Name = "Test" };
             publisher.Publish(message);
-            publisher.Dispose();
         }
 
         [TestMethod]
@@ -34,7 +33,7 @@ namespace OnlineShop.Messaging.Service.Tests
         {
             EventWaitHandle waitHandle = new ManualResetEvent(false);
             var connectionProvider = new ConnectionProvider(_settings);
-            var subscriber = new Subscriber<TestMessage>(connectionProvider);
+            using var subscriber = new Subscriber<TestMessage>(connectionProvider);
             TestMessage result = null;
 
             subscriber.Subscribe(OnMessageReceived);
