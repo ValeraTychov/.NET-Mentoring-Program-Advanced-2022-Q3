@@ -37,7 +37,7 @@ builder.Services.AddSwaggerGen(config =>
 
 builder.Services.AddScoped(CreateMapper);
 builder.Services.AddSingleton(GetSettings);
-builder.Services.AddSingleton<IMessagingService, MessagingService>();
+builder.Services.AddSingleton<ISubscriber<ItemChangedMessage>, Subscriber<ItemChangedMessage>>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<CartController>();
@@ -72,13 +72,12 @@ IMapper CreateMapper(IServiceProvider serviceProvider)
     return mapperConfiguration.CreateMapper();
 }
 
-Settings GetSettings(IServiceProvider serviceProvider)
+MessageBrokerSettings GetSettings(IServiceProvider serviceProvider)
 {
-    return new Settings
+    return new MessageBrokerSettings
     {
         Host = "localhost",
         Username = "planck",
         Password = "planck",
-        QueuesToListen = new List<Type> { typeof(ItemChangedParameters) },
     };
 }

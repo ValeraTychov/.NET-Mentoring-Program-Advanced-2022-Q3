@@ -29,9 +29,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Messaging", "Messaging", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Messaging.Abstraction", "src\OnlineShop.Messaging.Abstraction\OnlineShop.Messaging.Abstraction.csproj", "{D5A85993-2463-49DC-BE50-F19EC3E52268}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShop.Messaging.Service", "src\OnlineShop.Messaging.Service\OnlineShop.Messaging.Service.csproj", "{983C5DC9-A4D4-4936-8297-996FCE11E5E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Messaging.Service", "src\OnlineShop.Messaging.Service\OnlineShop.Messaging.Service.csproj", "{983C5DC9-A4D4-4936-8297-996FCE11E5E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShop.Messaging.Service.Tests", "test\UnitTests\OnlineShop.Messaging.Service.Tests\OnlineShop.Messaging.Service.Tests.csproj", "{B2082A23-19BD-41D5-ACE0-430DA9F3E3AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Messaging.Service.Tests", "test\UnitTests\OnlineShop.Messaging.Service.Tests\OnlineShop.Messaging.Service.Tests.csproj", "{B2082A23-19BD-41D5-ACE0-430DA9F3E3AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

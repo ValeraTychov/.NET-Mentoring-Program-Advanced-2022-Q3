@@ -1,5 +1,6 @@
 using OnlineShop.Messaging.Abstraction;
 using OnlineShop.Messaging.Abstraction.Entities;
+using OnlineShop.Messaging.Service.Models;
 using OnlineShop.Messaging.Service.Storage;
 
 namespace OnlineShop.Messaging.Service.Tests
@@ -7,48 +8,48 @@ namespace OnlineShop.Messaging.Service.Tests
     [TestClass]
     public class ConnectionHandlerTests
     {
-        private readonly Settings _settings = new Settings
+        private readonly MessageBrokerSettings _settings = new MessageBrokerSettings
         {
             Host = "localhost",
             Username = "planck",
             Password = "planck",
-            QueuesToListen = new List<Type> { typeof(TestEventParameters), typeof(ItemChangedParameters) },
         };
-        private PublisherStorage _publisherStorage = new PublisherStorage();
-        private SubscriptionStorage _subscriptionStorage = new SubscriptionStorage();
+        //private PublisherStorage _publisherStorage = new PublisherStorage();
+        //private SubscriptionStorage _subscriptionStorage = new SubscriptionStorage();
 
         [TestMethod]
         public void Publish()
         {
-            using var bh = new BusHandler(_settings, _publisherStorage, _subscriptionStorage);
-            var message = new TestEventParameters { Id = 42, Name = "Test" };
-            _publisherStorage.Publish(message);
+            var connectionProvider = new ConnectionProvider(_settings);
+            var publisher = new Publisher<TestMessage>(connectionProvider);
+
+            //using var bh = new BusHandler(_settings, _publisherStorage, _subscriptionStorage);
+            var message = new TestMessage { Id = 42, Name = "Test" };
+            publisher.Publish(message);
+            publisher.Dispose();
         }
 
         [TestMethod]
         public void Subscribe()
         {
             EventWaitHandle waitHandle = new ManualResetEvent(false);
-            using var bh = new BusHandler(_settings, _publisherStorage, _subscriptionStorage);
-            var expected = new TestEventParameters { Id = 42, Name = "Test" };
+            var connectionProvider = new ConnectionProvider(_settings);
+            var subscriber = new Subscriber<TestMessage>(connectionProvider);
+            TestMessage result = null;
 
-            _subscriptionStorage.Subscribe<TestEventParameters>(OnMessageReceived);
+            subscriber.Subscribe(OnMessageReceived);
 
-            TestEventParameters? result = null;
-
-            waitHandle.WaitOne(5000);
-            
+            waitHandle.WaitOne(2000);
             Assert.IsNotNull(result);
-            Assert.AreEqual(expected.Id, result.Id);
 
-            void OnMessageReceived(TestEventParameters parameters)
+            void OnMessageReceived(TestMessage parameters)
             {
                 result = parameters;
                 waitHandle.Set();
             }
         }
 
-        private class TestEventParameters : EventParameters
+        private class TestMessage
         {
             public int Id { get; set; }
 

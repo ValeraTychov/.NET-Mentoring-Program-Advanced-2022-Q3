@@ -11,14 +11,14 @@ public class CartService : ICartService
 {
     private readonly IMapper _mapper;
     private readonly ICartRepository _cartRepository;
-    private readonly IMessagingService _messageService;
+    private readonly ISubscriber<ItemChangedMessage> _subscriber;
 
-    public CartService(IMapper mapper, ICartRepository cartRepository, IMessagingService messagingService)
+    public CartService(IMapper mapper, ICartRepository cartRepository, ISubscriber<ItemChangedMessage> subscriber)
     {
         _mapper = mapper;
         _cartRepository = cartRepository;
-        _messageService = messagingService;
-        _messageService.Subscribe<ItemChangedParameters>(OnItemChanged);
+        _subscriber = subscriber;
+        _subscriber.Subscribe(OnItemChanged);
     }
 
     public IEnumerable<Cart> GetCarts()
@@ -65,7 +65,7 @@ public class CartService : ICartService
         _cartRepository.AddOrUpdate(_mapper.Map<DalCart>(cart));
     }
 
-    private void OnItemChanged(ItemChangedParameters eventParameters)
+    private void OnItemChanged(ItemChangedMessage eventParameters)
     {
         foreach (var dalCart in _cartRepository.Get())
         {
@@ -81,7 +81,7 @@ public class CartService : ICartService
         }
     }
 
-    private void UpdateItem(Item item, ItemChangedParameters eventParameters)
+    private void UpdateItem(Item item, ItemChangedMessage eventParameters)
     {
         item.Image.Url = eventParameters.Image?.AbsoluteUri;
         item.Name = eventParameters.Name;
