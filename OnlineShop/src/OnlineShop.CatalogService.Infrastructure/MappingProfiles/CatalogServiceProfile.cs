@@ -13,6 +13,6 @@ public class CatalogServiceProfile : Profile
         CreateMap<Category,DalCategory>().ReverseMap();
         CreateMap<Item, DalItem>().ReverseMap();
 
-        CreateMap<Item, ItemChangedParameters>();
+        CreateMap<Item, ItemChangedMessage>();
     }
 }

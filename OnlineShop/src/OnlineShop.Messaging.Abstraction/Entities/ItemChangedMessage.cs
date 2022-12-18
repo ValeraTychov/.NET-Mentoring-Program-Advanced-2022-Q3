@@ -1,6 +1,6 @@
 ﻿namespace OnlineShop.Messaging.Abstraction.Entities;
 
-public class ItemChangedParameters : EventParameters
+public class ItemChangedMessage
 {
     public int Id { get; set; }
 

@@ -6,6 +6,7 @@ using OnlineShop.CatalogService.Infrastructure.Adapters;
 using OnlineShop.CatalogService.Infrastructure.DAL;
 using OnlineShop.CatalogService.WebApplication.MappingProfiles;
 using OnlineShop.Messaging.Abstraction;
+using OnlineShop.Messaging.Abstraction.Entities;
 using OnlineShop.Messaging.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,8 +20,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton(CreateMapper);
 builder.Services.AddSingleton(GetSettings);
 builder.Services.AddScoped<DbContext>(sp => new CatalogContext());
-builder.Services.AddSingleton<IMessagingService, MessagingService>();
-builder.Services.AddSingleton<IBusPublisher, BusPublisherAdapter>();
+builder.Services.AddSingleton<IPublisher<ItemChangedMessage>, Publisher<ItemChangedMessage>>();
+builder.Services.AddSingleton<IBusPublisher<ItemChangedMessage>, BusPublisherAdapter<ItemChangedMessage>>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -72,13 +73,12 @@ IMapper CreateMapper(IServiceProvider serviceProvider)
     return mapperConfiguration.CreateMapper();
 }
 
-Settings GetSettings(IServiceProvider serviceProvider)
+MessageBrokerSettings GetSettings(IServiceProvider serviceProvider)
 {
-    return new Settings
+    return new MessageBrokerSettings
     {
         Host = "localhost",
         Username = "planck",
         Password = "planck",
-        QueuesToListen = new(),
     };
 }
