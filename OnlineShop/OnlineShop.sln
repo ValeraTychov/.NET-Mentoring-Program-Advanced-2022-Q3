@@ -19,11 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CatalogService.I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CatalogService.Domain.Tests", "test\UnitTests\OnlineShop.CatalogService.Domain.Tests\OnlineShop.CatalogService.Domain.Tests.csproj", "{26E82F30-D0F2-4D39-8250-2F6113C107D4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CatalogService.WebApplication", "src\OnlineShop.CatalogService.WebApplication\OnlineShop.CatalogService.WebApplication.csproj", "{1FFA7E09-E165-4E01-957F-C81CDD9FA72B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CatalogService.Api", "src\OnlineShop.CatalogService.Api\OnlineShop.CatalogService.Api.csproj", "{1FFA7E09-E165-4E01-957F-C81CDD9FA72B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CartService.WebApplication", "src\OnlineShop.CartService.WebApplication\OnlineShop.CartService.WebApplication.csproj", "{E82AA5CF-9B23-42DA-9439-DA5348CF52A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CartService.Api", "src\OnlineShop.CartService.Api\OnlineShop.CartService.Api.csproj", "{E82AA5CF-9B23-42DA-9439-DA5348CF52A8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CatalogService.WebApplication.Tests", "test\UnitTests\OnlineShop.CatalogService.WebApplication.Tests\OnlineShop.CatalogService.WebApplication.Tests.csproj", "{6449248B-2DDB-4014-8627-77C64446A054}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CatalogService.Api.Tests", "test\UnitTests\OnlineShop.CatalogService.Api.Tests\OnlineShop.CatalogService.Api.Tests.csproj", "{6449248B-2DDB-4014-8627-77C64446A054}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Messaging", "Messaging", "{3D428423-DA86-4714-9895-615F745972C5}"
 EndProject
