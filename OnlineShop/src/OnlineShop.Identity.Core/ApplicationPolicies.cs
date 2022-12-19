@@ -6,16 +6,16 @@ public class ApplicationPolicies
 {
     public static AuthorizationPolicy AdministratorRoleRequired { get; } = CreatePolicy(builder => builder.RequireRole(ApplicationRoles.Administrator));
 
-    public static AuthorizationPolicy CanCreateCrudClaimRequired { get; } =
+    public static AuthorizationPolicy CreateAllowed { get; } =
         CreatePolicy(builder => builder.RequireClaim(ApplicationClaims.CrudType, ApplicationClaims.CanCreate));
 
-    public static AuthorizationPolicy CanReadCrudClaimRequired { get; } =
+    public static AuthorizationPolicy ReadAllowed { get; } =
         CreatePolicy(builder => builder.RequireClaim(ApplicationClaims.CrudType, ApplicationClaims.CanRead));
 
-    public static AuthorizationPolicy CanUpdateCrudClaimRequired { get; } =
+    public static AuthorizationPolicy UpdateAllowed { get; } =
         CreatePolicy(builder => builder.RequireClaim(ApplicationClaims.CrudType, ApplicationClaims.CanUpdate));
 
-    public static AuthorizationPolicy CanDeleteCrudClaimRequired { get; } =
+    public static AuthorizationPolicy DeleteAllowed { get; } =
         CreatePolicy(builder => builder.RequireClaim(ApplicationClaims.CrudType, ApplicationClaims.CanDelete));
 
     private static AuthorizationPolicy CreatePolicy(Func<AuthorizationPolicyBuilder, AuthorizationPolicyBuilder> builder)

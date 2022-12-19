@@ -8,13 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.12" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\OnlineShop.CatalogService.Domain\OnlineShop.CatalogService.Domain.csproj" />
     <ProjectReference Include="..\OnlineShop.CatalogService.Infrastructure\OnlineShop.CatalogService.Infrastructure.csproj" />
+    <ProjectReference Include="..\OnlineShop.Identity.Core\OnlineShop.Identity.Core.csproj" />
     <ProjectReference Include="..\OnlineShop.Messaging.Abstraction\OnlineShop.Messaging.Abstraction.csproj" />
     <ProjectReference Include="..\OnlineShop.Messaging.Service\OnlineShop.Messaging.Service.csproj" />
   </ItemGroup>

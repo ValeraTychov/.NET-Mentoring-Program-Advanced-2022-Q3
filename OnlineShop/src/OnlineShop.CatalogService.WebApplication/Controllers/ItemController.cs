@@ -6,6 +6,8 @@ using DomainItem = OnlineShop.CatalogService.Domain.Entities.Item;
 using OnlineShop.CatalogService.WebApplication.Links;
 using OnlineShop.CatalogService.WebApplication.Models;
 using OnlineShop.CatalogService.WebApplication.Pagination;
+using Microsoft.AspNetCore.Authorization;
+using OnlineShop.Identity.Core;
 
 namespace OnlineShop.CatalogService.WebApplication.Controllers
 {
@@ -42,12 +44,14 @@ namespace OnlineShop.CatalogService.WebApplication.Controllers
             };
         }
 
+        [Authorize(nameof(ApplicationPolicies.ReadAllowed))]
         [HttpGet("{id}")]
         public Item Get(int id)
         {
             return _mapper.Map<Item>(_itemService.Get(id));
         }
-        
+
+        [Authorize(nameof(ApplicationPolicies.CreateAllowed))]
         [HttpPost]
         public void Post([FromBody] Item value)
         {
@@ -55,12 +59,14 @@ namespace OnlineShop.CatalogService.WebApplication.Controllers
             _itemService.Add(item);
         }
 
+        [Authorize(nameof(ApplicationPolicies.UpdateAllowed))]
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] Item value)
         {
             _itemService.Update(_mapper.Map<DomainItem>(value));
         }
 
+        [Authorize(nameof(ApplicationPolicies.DeleteAllowed))]
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

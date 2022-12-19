@@ -6,6 +6,7 @@ using OnlineShop.CatalogService.WebApplication.Entities;
 using OnlineShop.CatalogService.WebApplication.Links;
 using OnlineShop.CatalogService.WebApplication.Models;
 using OnlineShop.CatalogService.WebApplication.Pagination;
+using OnlineShop.Identity.Core;
 using DomainCategory = OnlineShop.CatalogService.Domain.Entities.Category;
 using DomainItem = OnlineShop.CatalogService.Domain.Entities.Item;
 
@@ -46,7 +47,7 @@ public class CategoryController : ControllerBase
         };
     }
 
-    [Authorize]
+    [Authorize(nameof(ApplicationPolicies.ReadAllowed))]
     [HttpGet("{id}")]
     public GetCategoryResponse? Get(int id)
     {
@@ -81,18 +82,21 @@ public class CategoryController : ControllerBase
         return items;
     }
 
+    [Authorize(nameof(ApplicationPolicies.CreateAllowed))]
     [HttpPost]
     public void Post([FromBody] Category value)
     {
         _categoryService.Add(_mapper.Map<DomainCategory>(value));
     }
 
+    [Authorize(nameof(ApplicationPolicies.UpdateAllowed))]
     [HttpPut("{id}")]
     public void Put(int id, [FromBody] Category value)
     {
         _categoryService.Update(_mapper.Map<DomainCategory>(value));
     }
 
+    [Authorize(nameof(ApplicationPolicies.DeleteAllowed))]
     [HttpDelete("{id}")]
     public void Delete(int id)
     {

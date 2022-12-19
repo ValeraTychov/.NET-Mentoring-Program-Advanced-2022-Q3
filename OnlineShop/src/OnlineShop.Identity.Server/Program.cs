@@ -1,4 +1,3 @@
-using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using IdentityServer;
 using Microsoft.AspNetCore.Identity;
@@ -7,6 +6,7 @@ using OnlineShop.Identity.Core;
 using OnlineShop.Identity.Server;
 using OnlineShop.Identity.Server.DataAccess;
 using OnlineShop.Identity.Server.DataAccess.Entities;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
