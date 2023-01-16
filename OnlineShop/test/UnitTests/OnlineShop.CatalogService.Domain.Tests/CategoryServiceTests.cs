@@ -6,7 +6,7 @@ using OnlineShop.CatalogService.Infrastructure.MappingProfiles;
 namespace OnlineShop.CatalogService.Domain.Tests;
 
 [TestClass]
-public class CategoryServiceTests 
+public class CategoryServiceTests
 {
     private ICategoryService _categoryService;
 
@@ -28,7 +28,7 @@ public class CategoryServiceTests
     [TestMethod]
     public void AddCategoryWithParent()
     {
-        _categoryService.Add(new Category { Name = "QQQ", Parent = new Category { Name = "Test Parent", Id = 99 } } );
+        _categoryService.Add(new Category { Name = "QQQ", Parent = new Category { Name = "Test Parent", Id = 99 } });
     }
 
     [TestMethod]

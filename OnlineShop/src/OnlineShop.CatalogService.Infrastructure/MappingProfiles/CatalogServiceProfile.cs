@@ -10,7 +10,7 @@ public class CatalogServiceProfile : Profile
 {
     public CatalogServiceProfile()
     {
-        CreateMap<Category,DalCategory>().ReverseMap();
+        CreateMap<Category, DalCategory>().ReverseMap();
         CreateMap<Item, DalItem>().ReverseMap();
 
         CreateMap<Item, ItemChangedMessage>();

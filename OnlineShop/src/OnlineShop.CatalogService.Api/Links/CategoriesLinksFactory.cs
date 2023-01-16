@@ -21,11 +21,11 @@ public class CategoriesLinksFactory
             });
 
         links.Add(new Link
-            {
-                Href = $"{apiSubPath}/Item/{{id}}",
-                Rel = "item",
-                Method = "GET",
-            }
+        {
+            Href = $"{apiSubPath}/Item/{{id}}",
+            Rel = "item",
+            Method = "GET",
+        }
         );
 
         return links;

@@ -9,7 +9,7 @@ namespace OnlineShop.Identity.Server.Utils
             Code = "🖕",
             Description = "User is locked out."
         };
-        
+
         public static IdentityError InvalidLoginAttempt => new IdentityError()
         {
             Code = "🖕",

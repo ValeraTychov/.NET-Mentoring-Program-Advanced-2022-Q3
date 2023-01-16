@@ -34,7 +34,7 @@ public static class Config
                 AllowedScopes = { "api1" },
                 AlwaysSendClientClaims = true,
                 AlwaysIncludeUserClaimsInIdToken = true,
-                
+
             },
             new Client
             {

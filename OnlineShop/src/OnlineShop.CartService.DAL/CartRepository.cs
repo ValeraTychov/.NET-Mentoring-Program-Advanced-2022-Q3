@@ -19,7 +19,7 @@ public class CartRepository : ICartRepository
     {
         Cart? cart = null;
         ManipulateCollection<Cart>(c => cart = c.FindOne(x => x.Id == cartId));
-        
+
         return cart;
     }
 

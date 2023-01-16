@@ -13,7 +13,7 @@ namespace OnlineShop.CatalogService.Api.Pagination
             _source = source;
             _pageSize = pageSize > 0 ? _pageSize : throw new ArgumentOutOfRangeException(nameof(pageSize), "Should be positive :)");
         }
-                
+
 
         public Page<T> CreatePage(int number)
         {

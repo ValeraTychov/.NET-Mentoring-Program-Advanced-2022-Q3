@@ -18,7 +18,7 @@ public class Item : ValidatableBase<Item>
     public Uri? Image { get; set; }
 
     public Category Category { get; set; }
-    
+
     public decimal Price { get; set; }
 
     public int Amount { get; set; }

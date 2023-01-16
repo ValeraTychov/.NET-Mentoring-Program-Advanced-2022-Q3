@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text;
+using Newtonsoft.Json;
 using OnlineShop.Messaging.Service.Events;
 using OnlineShop.Messaging.Service.Storage;
 using OnlineShop.Messaging.Service.Utils;
 using RabbitMQ.Client;
-using System.Text;
 
 namespace OnlineShop.Messaging.Service.Models;
 
@@ -75,12 +75,12 @@ public class PublishManager<TMessage> : IDisposable
 
         channel.BasicPublish(string.Empty, queue, true, null, body);
     }
-    
+
     public void Dispose()
     {
         _connectionProvider.ConnectionCreated -= OnConnectionCreated;
         _connection?.Dispose();
     }
 
-    
+
 }

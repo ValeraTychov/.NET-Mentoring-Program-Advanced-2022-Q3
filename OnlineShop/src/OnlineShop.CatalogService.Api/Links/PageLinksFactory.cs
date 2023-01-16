@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Http.Extensions;
+﻿using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Http.Extensions;
 using OnlineShop.CatalogService.Api.Entities;
-using System.Text.RegularExpressions;
 
 namespace OnlineShop.CatalogService.Api.Links;
 

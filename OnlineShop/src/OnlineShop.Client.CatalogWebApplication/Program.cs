@@ -23,7 +23,7 @@ builder.Services.AddAuthentication(options =>
         options.ResponseType = "code";
 
         options.CallbackPath = "/callback";
-        
+
         options.Scope.Clear();
         options.Scope.Add("openid");
         options.Scope.Add("profile");

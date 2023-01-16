@@ -87,12 +87,12 @@ namespace OnlineShop.Identity.Server.Areas.Identity.Pages.Admin
             RoleClaims = role.RoleClaims;
 
             var claimEqualityComparer = new ClaimEqualityComparer();
-            
+
             AvailableClaims = _claims
                 .Select((c, i) => new { Id = i, Claim = c })
                 .Where(x => !RoleClaims.Select(rc => rc.ToClaim()).Contains(x.Claim, claimEqualityComparer))
                 .ToDictionary(x => x.Id, x => x.Claim);
-            
+
             Id = roleId;
             Name = role.Name;
         }

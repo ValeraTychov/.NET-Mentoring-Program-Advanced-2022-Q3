@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text;
+using Newtonsoft.Json;
 using OnlineShop.Messaging.Service.Events;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System.Text;
 
 namespace OnlineShop.Messaging.Service.Models;
 
@@ -10,17 +10,17 @@ internal class ListenManager<TMessage> : IDisposable
 {
     private readonly IConnectionProvider _connectionProvider;
     private Action<TMessage> _onMessage;
-    
+
     private IConnection _connection;
     private IModel _channel;
     private EventingBasicConsumer? _consumer;
-    
+
     public ListenManager(IConnectionProvider connectionProvider)
     {
         _connectionProvider = connectionProvider;
         _connectionProvider.ConnectionCreated += OnConnectionCreated;
         _connection = connectionProvider.Connection;
-        
+
         SetupListener();
     }
 
@@ -32,7 +32,7 @@ internal class ListenManager<TMessage> : IDisposable
     private void OnConnectionCreated(object? sender, ConnectionCreatedEventArgs e)
     {
         _connection = e.Connection;
-        
+
         SetupListener();
     }
 

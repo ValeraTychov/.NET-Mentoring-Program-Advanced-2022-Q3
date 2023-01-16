@@ -19,7 +19,7 @@ public class Cart
             item.Quantity = 1;
         }
 
-        if(this.HasItem(item.Id, out var itemInCart))
+        if (this.HasItem(item.Id, out var itemInCart))
         {
             itemInCart!.Quantity += item.Quantity;
             return;

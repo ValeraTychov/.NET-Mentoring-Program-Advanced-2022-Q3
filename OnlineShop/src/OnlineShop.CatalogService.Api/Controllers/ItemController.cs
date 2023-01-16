@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.CatalogService.Api.Entities;
-using OnlineShop.CatalogService.Domain;
-using DomainItem = OnlineShop.CatalogService.Domain.Entities.Item;
 using OnlineShop.CatalogService.Api.Links;
 using OnlineShop.CatalogService.Api.Models;
 using OnlineShop.CatalogService.Api.Pagination;
-using Microsoft.AspNetCore.Authorization;
+using OnlineShop.CatalogService.Domain;
 using OnlineShop.Identity.Core;
+using DomainItem = OnlineShop.CatalogService.Domain.Entities.Item;
 
 namespace OnlineShop.CatalogService.Api.Controllers
 {

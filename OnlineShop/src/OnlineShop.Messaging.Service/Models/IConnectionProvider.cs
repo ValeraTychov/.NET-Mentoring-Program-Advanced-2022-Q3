@@ -8,6 +8,6 @@ public interface IConnectionProvider
     IConnection Connection { get; }
 
     event EventHandler<ShutdownEventArgs>? ConnectionShutdown;
-    
+
     event EventHandler<ConnectionCreatedEventArgs>? ConnectionCreated;
 }

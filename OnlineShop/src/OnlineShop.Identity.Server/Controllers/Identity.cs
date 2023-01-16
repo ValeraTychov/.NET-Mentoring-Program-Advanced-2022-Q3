@@ -1,22 +1,21 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.IdentityModel.Tokens.Jwt;
+using IdentityModel;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using NuGet.Protocol.Plugins;
 using OnlineShop.Identity.Core;
 using OnlineShop.Identity.Server.DataAccess;
 using OnlineShop.Identity.Server.Mapping;
 using OnlineShop.Identity.Server.Models;
 using OnlineShop.Identity.Server.Utils;
-using NuGet.Protocol.Plugins;
-using System.IdentityModel.Tokens.Jwt;
-using IdentityModel;
-
-using DalUser = OnlineShop.Identity.Server.DataAccess.Entities.User;
-using DalRole = OnlineShop.Identity.Server.DataAccess.Entities.Role;
 using DalClaim = OnlineShop.Identity.Server.DataAccess.Entities.RoleClaim;
+using DalRole = OnlineShop.Identity.Server.DataAccess.Entities.Role;
+using DalUser = OnlineShop.Identity.Server.DataAccess.Entities.User;
 using SystemClaim = System.Security.Claims.Claim;
-using Microsoft.AspNetCore.Authentication.OAuth;
-using Microsoft.IdentityModel.Tokens;
 
 namespace OnlineShop.Identity.Server.Controllers
 {
@@ -24,7 +23,7 @@ namespace OnlineShop.Identity.Server.Controllers
     [Route("api/[controller]")]
     public class Identity : ControllerBase
     {
-        
+
         private readonly UserManager<DalUser> _userManager;
         private readonly RoleManager<DalRole> _roleManager;
         private readonly ApplicationDbContext _dbContext;
@@ -74,7 +73,7 @@ namespace OnlineShop.Identity.Server.Controllers
             {
                 return IdentityResult.Failed();
             }
-            
+
             var result = await _signInManager.PasswordSignInAsync(userName, password, rememberMe, lockoutOnFailure);
             if (result.Succeeded)
             {
@@ -123,7 +122,7 @@ namespace OnlineShop.Identity.Server.Controllers
                 new SystemClaim(JwtClaimTypes.Name, user.UserName)
             };
 
-            if(user.Roles == null)
+            if (user.Roles == null)
             {
                 return claims;
             }
@@ -156,7 +155,7 @@ namespace OnlineShop.Identity.Server.Controllers
         [HttpPost]
         public void User(string login, string password)
         {
-            
+
         }
 
         [Route("Roles")]
@@ -229,7 +228,7 @@ namespace OnlineShop.Identity.Server.Controllers
         public async void DeleteRoleClaim(string roleId, Claim claim)
         {
             var role = await _roleManager.FindByIdAsync(roleId);
-            await _roleManager.RemoveClaimAsync(role, claim.ToDalClaim().ToClaim());  
+            await _roleManager.RemoveClaimAsync(role, claim.ToDalClaim().ToClaim());
         }
     }
 }

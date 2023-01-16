@@ -1,17 +1,17 @@
-﻿using AutoMapper;
+﻿using System.Text;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using OnlineShop.CatalogService.Api.MappingProfiles;
 using OnlineShop.CatalogService.Domain;
 using OnlineShop.CatalogService.Infrastructure.Adapters;
 using OnlineShop.CatalogService.Infrastructure.DAL;
-using OnlineShop.CatalogService.Api.MappingProfiles;
 using OnlineShop.Identity.Core;
 using OnlineShop.Messaging.Abstraction;
 using OnlineShop.Messaging.Abstraction.Entities;
 using OnlineShop.Messaging.Service;
 using OnlineShop.Messaging.Service.Models;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,17 +36,17 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
     {
-        
+
         options.RequireHttpsMetadata = false;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidIssuer = builder.Configuration["JwtOptions:Issuer"],
- 
+
             ValidateAudience = true,
             ValidAudience = builder.Configuration["JwtOptions:Audience"],
             ValidateLifetime = true,
- 
+
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF32.GetBytes(builder.Configuration["JwtOptions:Key"])),
             ValidateIssuerSigningKey = true,
         };
@@ -59,7 +59,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy(nameof(ApplicationPolicies.UpdateAllowed), ApplicationPolicies.UpdateAllowed);
     options.AddPolicy(nameof(ApplicationPolicies.DeleteAllowed), ApplicationPolicies.DeleteAllowed);
 });
-    
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

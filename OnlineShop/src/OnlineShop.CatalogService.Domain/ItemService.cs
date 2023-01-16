@@ -42,7 +42,7 @@ public class ItemService : IItemService
     public IOperationResult Update(Item item)
     {
         var result = AddOrUpdate(item, (e, r) => r.Update(e));
-        
+
         if (!result.IsSuccess)
         {
             return result;

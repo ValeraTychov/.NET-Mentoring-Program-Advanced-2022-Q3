@@ -39,11 +39,11 @@ public class ConnectionProvider : IConnectionProvider, IDisposable
             }
             catch (Exception ex)
             {
-                if(++attempt >= maxAttempts)
+                if (++attempt >= maxAttempts)
                 {
                     throw new Exception("Cannot create connextion", ex);
                 }
-                
+
                 Thread.Sleep(2000);
             }
         }

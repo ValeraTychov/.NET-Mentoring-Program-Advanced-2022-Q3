@@ -40,7 +40,7 @@ public class CartService : ICartService
     public void AddItem(Guid cartId, Item item)
     {
         var cart = GetCart(cartId);
-        
+
         cart ??= new Cart { Id = cartId };
 
         cart.AddItem(item);
@@ -75,7 +75,7 @@ public class CartService : ICartService
             {
                 continue;
             }
-            
+
             UpdateItem(item, eventParameters);
             AddOrUpdate(cart);
         }
