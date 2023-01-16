@@ -19,19 +19,29 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CatalogService.I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CatalogService.Domain.Tests", "test\UnitTests\OnlineShop.CatalogService.Domain.Tests\OnlineShop.CatalogService.Domain.Tests.csproj", "{26E82F30-D0F2-4D39-8250-2F6113C107D4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CatalogService.WebApplication", "src\OnlineShop.CatalogService.WebApplication\OnlineShop.CatalogService.WebApplication.csproj", "{1FFA7E09-E165-4E01-957F-C81CDD9FA72B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CatalogService.Api", "src\OnlineShop.CatalogService.Api\OnlineShop.CatalogService.Api.csproj", "{1FFA7E09-E165-4E01-957F-C81CDD9FA72B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CartService.WebApplication", "src\OnlineShop.CartService.WebApplication\OnlineShop.CartService.WebApplication.csproj", "{E82AA5CF-9B23-42DA-9439-DA5348CF52A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CartService.Api", "src\OnlineShop.CartService.Api\OnlineShop.CartService.Api.csproj", "{E82AA5CF-9B23-42DA-9439-DA5348CF52A8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CatalogService.WebApplication.Tests", "test\UnitTests\OnlineShop.CatalogService.WebApplication.Tests\OnlineShop.CatalogService.WebApplication.Tests.csproj", "{6449248B-2DDB-4014-8627-77C64446A054}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.CatalogService.Api.Tests", "test\UnitTests\OnlineShop.CatalogService.Api.Tests\OnlineShop.CatalogService.Api.Tests.csproj", "{6449248B-2DDB-4014-8627-77C64446A054}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Messaging", "Messaging", "{3D428423-DA86-4714-9895-615F745972C5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Messaging.Abstraction", "src\OnlineShop.Messaging.Abstraction\OnlineShop.Messaging.Abstraction.csproj", "{D5A85993-2463-49DC-BE50-F19EC3E52268}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShop.Messaging.Service", "src\OnlineShop.Messaging.Service\OnlineShop.Messaging.Service.csproj", "{983C5DC9-A4D4-4936-8297-996FCE11E5E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Messaging.Service", "src\OnlineShop.Messaging.Service\OnlineShop.Messaging.Service.csproj", "{983C5DC9-A4D4-4936-8297-996FCE11E5E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShop.Messaging.Service.Tests", "test\UnitTests\OnlineShop.Messaging.Service.Tests\OnlineShop.Messaging.Service.Tests.csproj", "{B2082A23-19BD-41D5-ACE0-430DA9F3E3AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Messaging.Service.Tests", "test\UnitTests\OnlineShop.Messaging.Service.Tests\OnlineShop.Messaging.Service.Tests.csproj", "{B2082A23-19BD-41D5-ACE0-430DA9F3E3AF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{495FF2F1-64AD-40D3-B8F8-EBACBE97E20E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Identity.Server", "src\OnlineShop.Identity.Server\OnlineShop.Identity.Server.csproj", "{D46F9619-86AD-48E7-96B0-61244E752620}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Identity.Core", "src\OnlineShop.Identity.Core\OnlineShop.Identity.Core.csproj", "{C704650D-E670-4620-A104-90332B556CE5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{63576D9D-AB86-4F18-8A1A-09F2F8219B9E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Client.CatalogWebApplication", "src\OnlineShop.Client.CatalogWebApplication\OnlineShop.Client.CatalogWebApplication.csproj", "{0B128940-99A5-4B55-B7F8-96E7CE55DDB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +97,18 @@ Global
 		{B2082A23-19BD-41D5-ACE0-430DA9F3E3AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2082A23-19BD-41D5-ACE0-430DA9F3E3AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2082A23-19BD-41D5-ACE0-430DA9F3E3AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D46F9619-86AD-48E7-96B0-61244E752620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D46F9619-86AD-48E7-96B0-61244E752620}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D46F9619-86AD-48E7-96B0-61244E752620}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D46F9619-86AD-48E7-96B0-61244E752620}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C704650D-E670-4620-A104-90332B556CE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C704650D-E670-4620-A104-90332B556CE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C704650D-E670-4620-A104-90332B556CE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C704650D-E670-4620-A104-90332B556CE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B128940-99A5-4B55-B7F8-96E7CE55DDB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B128940-99A5-4B55-B7F8-96E7CE55DDB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B128940-99A5-4B55-B7F8-96E7CE55DDB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B128940-99A5-4B55-B7F8-96E7CE55DDB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,6 +126,9 @@ Global
 		{D5A85993-2463-49DC-BE50-F19EC3E52268} = {3D428423-DA86-4714-9895-615F745972C5}
 		{983C5DC9-A4D4-4936-8297-996FCE11E5E5} = {3D428423-DA86-4714-9895-615F745972C5}
 		{B2082A23-19BD-41D5-ACE0-430DA9F3E3AF} = {3D428423-DA86-4714-9895-615F745972C5}
+		{D46F9619-86AD-48E7-96B0-61244E752620} = {495FF2F1-64AD-40D3-B8F8-EBACBE97E20E}
+		{C704650D-E670-4620-A104-90332B556CE5} = {495FF2F1-64AD-40D3-B8F8-EBACBE97E20E}
+		{0B128940-99A5-4B55-B7F8-96E7CE55DDB8} = {63576D9D-AB86-4F18-8A1A-09F2F8219B9E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B6B4A113-E111-48F4-9CDD-B6197E160F39}

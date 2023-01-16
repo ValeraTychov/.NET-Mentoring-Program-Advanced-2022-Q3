@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\OnlineShop.Messaging.Abstraction\OnlineShop.Messaging.Abstraction.csproj" />
+  </ItemGroup>
+
 </Project>

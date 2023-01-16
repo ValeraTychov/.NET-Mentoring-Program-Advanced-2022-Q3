@@ -1,0 +1,21 @@
+﻿@page
+@model OnlineShop.Identity.Server.Areas.Identity.Pages.Admin.UsersModel
+@{
+    ViewData["Title"] = "OutputUsers";
+    ViewData["ActivePage"] = AdminNavPages.Users;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<div class="vstack gap-2">
+    @foreach (var user in Model.OutputUsers)
+    {
+        <form method="post" asp-antiforgery="true">
+            <div class="hstack gap-2 container-fluid">
+                <span class="col-6">@user.Name</span>
+                <a type="button" href="./User/@user.Id" class="btn btn-primary">Edit</a>
+                <button type="submit" asp-page-handler="DeleteUser" asp-route-id="@user.Id" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger">Delete</button>
+            </div>
+        </form>
+    }
+</div>
