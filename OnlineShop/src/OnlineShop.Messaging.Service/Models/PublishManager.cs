@@ -14,7 +14,7 @@ public class PublishManager<TMessage> : IDisposable
     private readonly SimpleLock _simpleLock = new();
 
     private IConnection _connection;
-    
+
     public PublishManager(PublisherStorage<TMessage> publisherStorage, IConnectionProvider connectionProvider)
     {
         _publisherStorage = publisherStorage;
@@ -62,7 +62,7 @@ public class PublishManager<TMessage> : IDisposable
 
     private void PublishMessage(TMessage message)
     {
-        if (message== null) throw new ArgumentNullException(nameof(message));
+        if (message == null) throw new ArgumentNullException(nameof(message));
 
         var str = JsonConvert.SerializeObject(message);
         var body = Encoding.UTF8.GetBytes(str);
