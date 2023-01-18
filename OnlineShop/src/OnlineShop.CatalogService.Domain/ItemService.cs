@@ -1,15 +1,14 @@
 ﻿using OnlineShop.CatalogService.Domain.Entities;
 using OnlineShop.CatalogService.Domain.Models;
-using OnlineShop.Messaging.Abstraction.Entities;
 
 namespace OnlineShop.CatalogService.Domain;
 
 public class ItemService : IItemService
 {
     private readonly IItemRepository _itemRepository;
-    private readonly IBusPublisher<ItemChangedMessage> _busPublisher;
+    private readonly IBusPublisher _busPublisher;
 
-    public ItemService(IItemRepository itemRepository, IBusPublisher<ItemChangedMessage> busPublisher)
+    public ItemService(IItemRepository itemRepository, IBusPublisher busPublisher)
     {
         _itemRepository = itemRepository;
         _busPublisher = busPublisher;

@@ -4,7 +4,7 @@ using OnlineShop.CatalogService.Api.Entities;
 
 namespace OnlineShop.CatalogService.Api.Links;
 
-public class CategoriesLinksFactory
+public static class CategoriesLinksFactory
 {
     public static List<Link> Create(HttpRequest httpRequest, Page<Category> page)
     {

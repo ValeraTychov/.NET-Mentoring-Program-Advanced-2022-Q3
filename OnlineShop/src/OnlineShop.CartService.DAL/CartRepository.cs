@@ -9,13 +9,13 @@ public class CartRepository : ICartRepository
 
     public IEnumerable<Cart> Get()
     {
-        IEnumerable<Cart> collection = null;
+        IEnumerable<Cart>? collection = null;
         ManipulateCollection<Cart>(c => collection = c.FindAll().ToArray());
 
-        return collection;
+        return collection!;
     }
 
-    public Cart Get(Guid cartId)
+    public Cart? Get(Guid cartId)
     {
         Cart? cart = null;
         ManipulateCollection<Cart>(c => cart = c.FindOne(x => x.Id == cartId));
@@ -36,10 +36,8 @@ public class CartRepository : ICartRepository
 
     private void ManipulateCollection<T>(Action<ILiteCollection<T>> action)
     {
-        using (var db = new LiteDatabase(_connectionString))
-        {
-            var collection = db.GetCollection<T>("carts");
-            action(collection);
-        }
+        using var db = new LiteDatabase(_connectionString);
+        var collection = db.GetCollection<T>("carts");
+        action(collection);
     }
 }

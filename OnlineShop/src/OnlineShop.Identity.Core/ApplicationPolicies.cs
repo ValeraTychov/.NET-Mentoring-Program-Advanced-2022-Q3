@@ -2,7 +2,7 @@
 
 namespace OnlineShop.Identity.Core;
 
-public class ApplicationPolicies
+public static class ApplicationPolicies
 {
     public static AuthorizationPolicy AdministratorRoleRequired { get; } = CreatePolicy(builder => builder.RequireRole(ApplicationRoles.Administrator));
 

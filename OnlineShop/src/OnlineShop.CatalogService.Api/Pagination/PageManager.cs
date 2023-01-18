@@ -4,8 +4,8 @@ namespace OnlineShop.CatalogService.Api.Pagination
 {
     public class PageManager<T>
     {
-        private IEnumerable<T> _source;
-        private int _pageSize;
+        private readonly IEnumerable<T> _source;
+        private readonly int _pageSize;
 
 
         public PageManager(IEnumerable<T> source, int pageSize)

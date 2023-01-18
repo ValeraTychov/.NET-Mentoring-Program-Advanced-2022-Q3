@@ -7,7 +7,7 @@ using DalCart = OnlineShop.CartService.DAL.Entities.Cart;
 
 namespace OnlineShop.CartService.BLL;
 
-public class CartService : ICartService
+public class CartService : ICartService, IDisposable
 {
     private readonly IMapper _mapper;
     private readonly ICartRepository _cartRepository;
@@ -86,5 +86,10 @@ public class CartService : ICartService
         item.Image.Url = eventParameters.Image?.AbsoluteUri;
         item.Name = eventParameters.Name;
         item.Price = eventParameters.Price;
+    }
+
+    public void Dispose()
+    {
+        _subscriber.Dispose();
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace OnlineShop.CatalogService.Api.Pagination
 {
-    public class PageCalculator
+    public static class PageCalculator
     {
         public static (int from, int to) CalcIndexRange(int pageNumber, int pageSize)
         {

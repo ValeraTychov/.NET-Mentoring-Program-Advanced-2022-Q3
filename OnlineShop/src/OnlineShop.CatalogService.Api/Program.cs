@@ -26,7 +26,7 @@ builder.Services.AddSingleton(GetSettings);
 builder.Services.AddScoped<DbContext>(sp => new CatalogContext());
 builder.Services.AddScoped<IConnectionProvider, ConnectionProvider>();
 builder.Services.AddScoped<IPublisher<ItemChangedMessage>, Publisher<ItemChangedMessage>>();
-builder.Services.AddScoped<IBusPublisher<ItemChangedMessage>, BusPublisherAdapter<ItemChangedMessage>>();
+builder.Services.AddScoped<IBusPublisher, BusPublisherAdapter<ItemChangedMessage>>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
