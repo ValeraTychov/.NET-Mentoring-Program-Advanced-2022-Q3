@@ -10,13 +10,11 @@ namespace OnlineShop.Identity.Server.Areas.Identity.Pages.Admin;
 public class UsersModel : PageModel
 {
     private readonly UserManager<User> _userManager;
-    private readonly RoleManager<DataAccess.Entities.Role> _roleManager;
     private readonly ApplicationDbContext _dbContext;
 
-    public UsersModel(UserManager<User> userManager, RoleManager<DataAccess.Entities.Role> roleManager, ApplicationDbContext dbContext)
+    public UsersModel(UserManager<User> userManager, ApplicationDbContext dbContext)
     {
         _userManager = userManager;
-        _roleManager = roleManager;
         _dbContext = dbContext;
     }
 

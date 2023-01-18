@@ -151,13 +151,6 @@ namespace OnlineShop.Identity.Server.Controllers
                 .ToArray();
         }
 
-        [Route("User")]
-        [HttpPost]
-        public void User(string login, string password)
-        {
-
-        }
-
         [Route("Roles")]
         [HttpGet]
         public IEnumerable<Role> Roles()
@@ -181,7 +174,7 @@ namespace OnlineShop.Identity.Server.Controllers
 
         [Route("Role/{roleId}")]
         [HttpPost]
-        public async void CreateRole(string role)
+        public async Task CreateRole(string role)
         {
             if (!string.IsNullOrEmpty(role) && !await _roleManager.RoleExistsAsync(role))
             {
@@ -196,7 +189,7 @@ namespace OnlineShop.Identity.Server.Controllers
 
         [Route("Role/{roleId}")]
         [HttpDelete]
-        public async void DeleteRole(string roleId)
+        public async Task DeleteRole(string roleId)
         {
             var role = await _roleManager.FindByIdAsync(roleId);
             await _roleManager.DeleteAsync(role);
@@ -217,7 +210,7 @@ namespace OnlineShop.Identity.Server.Controllers
 
         [Route("Role/{roleId}/Claim")]
         [HttpPost]
-        public async void AddRoleClaim(string roleId, Claim claim)
+        public async Task AddRoleClaim(string roleId, Claim claim)
         {
             var role = await _roleManager.FindByIdAsync(roleId);
             await _roleManager.AddClaimAsync(role, claim.ToDalClaim().ToClaim());
@@ -225,7 +218,7 @@ namespace OnlineShop.Identity.Server.Controllers
 
         [Route("Role/{roleId}/Claim")]
         [HttpDelete]
-        public async void DeleteRoleClaim(string roleId, Claim claim)
+        public async Task DeleteRoleClaim(string roleId, Claim claim)
         {
             var role = await _roleManager.FindByIdAsync(roleId);
             await _roleManager.RemoveClaimAsync(role, claim.ToDalClaim().ToClaim());
