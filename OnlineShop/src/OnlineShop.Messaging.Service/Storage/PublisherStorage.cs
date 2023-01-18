@@ -14,12 +14,12 @@ public class PublisherStorage<TMessage>
         MessageReceived?.Invoke(this, EventArgs.Empty);
     }
 
-    public bool TryPeek(out TMessage message)
+    public bool TryPeek(out TMessage? message)
     {
         return _messageBuffer.TryPeek(out message);
     }
 
-    public bool TryDequeue(out TMessage message)
+    public bool TryDequeue(out TMessage? message)
     {
         return _messageBuffer.TryDequeue(out message);
     }

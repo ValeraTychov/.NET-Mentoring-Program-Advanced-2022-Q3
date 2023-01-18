@@ -4,5 +4,10 @@ namespace OnlineShop.Messaging.Service.Events;
 
 public class ConnectionCreatedEventArgs : EventArgs
 {
-    public IConnection Connection { get; set; }
+    public ConnectionCreatedEventArgs(IConnection connection)
+    {
+        Connection = connection ?? throw new ArgumentNullException(nameof(connection));
+    }
+
+    public IConnection Connection { get; private set; }
 }

@@ -41,7 +41,7 @@ public class ConnectionProvider : IConnectionProvider, IDisposable
             {
                 if (++attempt >= maxAttempts)
                 {
-                    throw new Exception("Cannot create connextion", ex);
+                    throw new AggregateException("Cannot create connection", ex);
                 }
 
                 Thread.Sleep(2000);
@@ -60,7 +60,7 @@ public class ConnectionProvider : IConnectionProvider, IDisposable
         ConnectionShutdown?.Invoke(sender, args);
         _connection = CreateConnection();
         SetupConnection(_connection);
-        ConnectionCreated?.Invoke(this, new ConnectionCreatedEventArgs { Connection = _connection });
+        ConnectionCreated?.Invoke(this, new ConnectionCreatedEventArgs(_connection));
     }
 
     public void Dispose()

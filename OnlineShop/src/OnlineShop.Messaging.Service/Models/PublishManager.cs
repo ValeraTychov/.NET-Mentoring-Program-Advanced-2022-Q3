@@ -9,12 +9,12 @@ namespace OnlineShop.Messaging.Service.Models;
 
 public class PublishManager<TMessage> : IDisposable
 {
-    private PublisherStorage<TMessage> _publisherStorage;
+    private readonly PublisherStorage<TMessage> _publisherStorage;
     private readonly IConnectionProvider _connectionProvider;
+    private readonly SimpleLock _simpleLock = new();
+
     private IConnection _connection;
-
-    private SimpleLock simpleLock = new SimpleLock();
-
+    
     public PublishManager(PublisherStorage<TMessage> publisherStorage, IConnectionProvider connectionProvider)
     {
         _publisherStorage = publisherStorage;
@@ -31,7 +31,7 @@ public class PublishManager<TMessage> : IDisposable
 
     private void PublishMessages(object? sender, EventArgs args)
     {
-        if (!simpleLock.TryEnter())
+        if (!_simpleLock.TryEnter())
         {
             return;
         }
@@ -40,7 +40,7 @@ public class PublishManager<TMessage> : IDisposable
         {
             try
             {
-                PublishMessage(message);
+                PublishMessage(message!);
             }
             catch
             {
@@ -50,7 +50,7 @@ public class PublishManager<TMessage> : IDisposable
             Dequeue();
         }
 
-        simpleLock.Exit();
+        _simpleLock.Exit();
     }
 
     private void Dequeue()
@@ -62,6 +62,8 @@ public class PublishManager<TMessage> : IDisposable
 
     private void PublishMessage(TMessage message)
     {
+        if (message== null) throw new ArgumentNullException(nameof(message));
+
         var str = JsonConvert.SerializeObject(message);
         var body = Encoding.UTF8.GetBytes(str);
         var queue = message.GetType().Name;

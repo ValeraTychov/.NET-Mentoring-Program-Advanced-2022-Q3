@@ -47,8 +47,8 @@ public class CartServiceTests
         var repository = new Mock<ICartRepository>();
         var mapper = new Mock<IMapper>();
         var subscriber = new Mock<ISubscriber<ItemChangedMessage>>();
-        Cart? cart = null;
-        mapper.Setup(m => m.Map<Cart?>(It.IsAny<DAL.Entities.Cart>())).Returns(cart);
+        Cart cart = null;
+        mapper.Setup(m => m.Map<Cart>(It.IsAny<DAL.Entities.Cart>())).Returns(cart);
         var item = new Item { Quantity = 42 };
         var service = new CartService(mapper.Object, repository.Object, subscriber.Object);
 

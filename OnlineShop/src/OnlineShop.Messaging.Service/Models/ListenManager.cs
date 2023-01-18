@@ -9,7 +9,7 @@ namespace OnlineShop.Messaging.Service.Models;
 internal class ListenManager<TMessage> : IDisposable
 {
     private readonly IConnectionProvider _connectionProvider;
-    private Action<TMessage> _onMessage;
+    private Action<TMessage>? _onMessage;
 
     private IConnection _connection;
     private IModel _channel;
@@ -62,15 +62,15 @@ internal class ListenManager<TMessage> : IDisposable
             autoAck: false,
             consumer: _consumer);
 
-        _consumer.Received += OnConsumerReceived;
+        _consumer!.Received += OnConsumerReceived;
     }
 
     private void OnConsumerReceived(object? sender, BasicDeliverEventArgs e)
     {
         string body = Encoding.UTF8.GetString(e.Body.ToArray());
-        var message = JsonConvert.DeserializeObject<TMessage>(body);
+        var message = JsonConvert.DeserializeObject<TMessage>(body)!;
 
-        _onMessage(message);
+        _onMessage?.Invoke(message);
 
         AckReceipt(e.DeliveryTag);
     }

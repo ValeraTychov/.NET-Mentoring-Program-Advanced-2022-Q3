@@ -1,6 +1,6 @@
 ﻿namespace OnlineShop.Messaging.Abstraction;
 
-public interface ISubscriber<TMessage> : IDisposable
+public interface ISubscriber<out TMessage> : IDisposable
 {
     void Subscribe(Action<TMessage> handler);
 }

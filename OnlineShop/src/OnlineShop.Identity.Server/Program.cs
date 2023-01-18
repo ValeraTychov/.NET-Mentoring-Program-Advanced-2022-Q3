@@ -1,4 +1,3 @@
-using System.Configuration;
 using Duende.IdentityServer.Services;
 using IdentityServer;
 using Microsoft.AspNetCore.Identity;
@@ -67,8 +66,6 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddScoped<IProfileService, ProfileService>();
-//builder.Services.AddScoped<RoleManager<User>>();
-//builder.Services.AddScoped<UserManager<User>>();
 builder.Services.AddScoped<ApplicationDbContext>();
 
 var app = builder.Build();
