@@ -1,9 +1,9 @@
 using AutoMapper;
 using Microsoft.OpenApi.Models;
-using OnlineShop.CartService.BLL;
-using OnlineShop.CartService.DAL;
 using OnlineShop.CartService.Api;
 using OnlineShop.CartService.Api.Controllers.V2;
+using OnlineShop.CartService.BLL;
+using OnlineShop.CartService.DAL;
 using OnlineShop.Messaging.Abstraction;
 using OnlineShop.Messaging.Abstraction.Entities;
 using OnlineShop.Messaging.Service;

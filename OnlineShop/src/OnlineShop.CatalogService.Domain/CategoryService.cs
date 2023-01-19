@@ -14,7 +14,8 @@ public class CategoryService : ICategoryService
 
     public Range<Category> GetRange(int from = 0, int to = int.MaxValue)
     {
-        return new Range<Category>{
+        return new Range<Category>
+        {
             Entities = _categoryRepository.GetRange(from, to),
             TotalCount = _categoryRepository.GetCount(),
         };

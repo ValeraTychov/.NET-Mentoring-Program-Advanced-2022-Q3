@@ -46,7 +46,7 @@ namespace OnlineShop.Identity.Server.Areas.Identity.Pages.Account
             {
                 return Redirect(postLogoutRedirectUri);
             }
-            
+
             if (!string.IsNullOrEmpty(returnUrl))
             {
                 return LocalRedirect(returnUrl);

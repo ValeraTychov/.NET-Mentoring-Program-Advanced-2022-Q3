@@ -15,7 +15,7 @@ public class Page<T>
         Total = PageCalculator.CalcTotalPages(totalItems, pageSize);
     }
 
-    public List<T> Content { get; set; }
+    public List<T>? Content { get; set; }
 
     public int Number { get; set; }
 

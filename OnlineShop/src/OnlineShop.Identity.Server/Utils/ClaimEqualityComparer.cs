@@ -4,7 +4,7 @@ namespace OnlineShop.Identity.Server.Utils
 {
     public class ClaimEqualityComparer : EqualityComparer<Claim>
     {
-        public override bool Equals(Claim? x, Claim? y)
+        public override bool Equals(Claim x, Claim y)
         {
             return x.Type.Equals(y.Type)
                    && x.Value.Equals(y.Value);

@@ -1,19 +1,19 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text;
+using Newtonsoft.Json;
 using OnlineShop.Messaging.Service.Events;
 using OnlineShop.Messaging.Service.Storage;
 using OnlineShop.Messaging.Service.Utils;
 using RabbitMQ.Client;
-using System.Text;
 
 namespace OnlineShop.Messaging.Service.Models;
 
 public class PublishManager<TMessage> : IDisposable
 {
-    private PublisherStorage<TMessage> _publisherStorage;
+    private readonly PublisherStorage<TMessage> _publisherStorage;
     private readonly IConnectionProvider _connectionProvider;
-    private IConnection _connection;
+    private readonly SimpleLock _simpleLock = new();
 
-    private SimpleLock simpleLock = new SimpleLock();
+    private IConnection _connection;
 
     public PublishManager(PublisherStorage<TMessage> publisherStorage, IConnectionProvider connectionProvider)
     {
@@ -31,7 +31,7 @@ public class PublishManager<TMessage> : IDisposable
 
     private void PublishMessages(object? sender, EventArgs args)
     {
-        if (!simpleLock.TryEnter())
+        if (!_simpleLock.TryEnter())
         {
             return;
         }
@@ -40,7 +40,7 @@ public class PublishManager<TMessage> : IDisposable
         {
             try
             {
-                PublishMessage(message);
+                PublishMessage(message!);
             }
             catch
             {
@@ -50,7 +50,7 @@ public class PublishManager<TMessage> : IDisposable
             Dequeue();
         }
 
-        simpleLock.Exit();
+        _simpleLock.Exit();
     }
 
     private void Dequeue()
@@ -62,6 +62,8 @@ public class PublishManager<TMessage> : IDisposable
 
     private void PublishMessage(TMessage message)
     {
+        if (message == null) throw new ArgumentNullException(nameof(message));
+
         var str = JsonConvert.SerializeObject(message);
         var body = Encoding.UTF8.GetBytes(str);
         var queue = message.GetType().Name;
@@ -75,12 +77,12 @@ public class PublishManager<TMessage> : IDisposable
 
         channel.BasicPublish(string.Empty, queue, true, null, body);
     }
-    
+
     public void Dispose()
     {
         _connectionProvider.ConnectionCreated -= OnConnectionCreated;
         _connection?.Dispose();
     }
 
-    
+
 }

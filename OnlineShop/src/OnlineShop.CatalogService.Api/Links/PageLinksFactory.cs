@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Http.Extensions;
+﻿using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Http.Extensions;
 using OnlineShop.CatalogService.Api.Entities;
-using System.Text.RegularExpressions;
 
 namespace OnlineShop.CatalogService.Api.Links;
 
-public class PageLinksFactory
+public static class PageLinksFactory
 {
     public static List<Link> Create<T>(HttpRequest httpRequest, Page<T> page)
     {

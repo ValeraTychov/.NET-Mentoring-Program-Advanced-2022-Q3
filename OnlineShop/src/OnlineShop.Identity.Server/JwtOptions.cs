@@ -1,6 +1,6 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace OnlineShop.Identity.Server;
 
@@ -11,8 +11,8 @@ public class JwtOptions
     public JwtOptions(IConfiguration configuration)
     {
         var options = configuration.GetRequiredSection(nameof(JwtOptions)).Get<JwtOptions>();
-        Issuer= options.Issuer;
-        Audience= options.Audience;
+        Issuer = options.Issuer;
+        Audience = options.Audience;
         Expires = DateTime.Now.Add(options.Livetime);
         SecurityKey = new SymmetricSecurityKey(Encoding.UTF32.GetBytes(options.Key));
     }

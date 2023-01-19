@@ -1,7 +1,7 @@
-﻿using AutoMapper;
+﻿using System.Xml;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.CatalogService.Domain;
-using System.Xml;
 
 namespace OnlineShop.CatalogService.Infrastructure.DAL;
 
@@ -55,7 +55,7 @@ public class GenericRepository<TEntity, TDalEntity> : IRepository<TEntity>, IDis
     }
 
     public void Delete(int id)
-    {  
+    {
         Entities.Remove(Entities.Find(id));
     }
 

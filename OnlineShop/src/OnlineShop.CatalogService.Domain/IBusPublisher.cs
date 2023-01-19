@@ -2,7 +2,7 @@
 
 namespace OnlineShop.CatalogService.Domain;
 
-public interface IBusPublisher<TMessage>
+public interface IBusPublisher
 {
     public void PublishItemChanged(Item item);
 }

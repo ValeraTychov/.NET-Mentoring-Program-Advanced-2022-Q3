@@ -2,7 +2,7 @@
 
 namespace OnlineShop.Identity.Server.Areas.Identity.Pages.Admin
 {
-    public class AdminNavPages
+    public static class AdminNavPages
     {
         public static string Users => "Users";
 

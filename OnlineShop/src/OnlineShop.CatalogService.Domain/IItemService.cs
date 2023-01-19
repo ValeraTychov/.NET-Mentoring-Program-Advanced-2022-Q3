@@ -11,9 +11,9 @@ public interface IItemService
 
     IEnumerable<Item> GetByCategory(int categoryId);
 
-    IOperationResult Add(Item entity);
+    IOperationResult Add(Item item);
 
-    IOperationResult Update(Item entity);
+    IOperationResult Update(Item item);
 
     void Delete(int id);
 }

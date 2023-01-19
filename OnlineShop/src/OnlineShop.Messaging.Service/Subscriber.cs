@@ -1,10 +1,9 @@
 ﻿using OnlineShop.Messaging.Abstraction;
 using OnlineShop.Messaging.Service.Models;
-using OnlineShop.Messaging.Service.Storage;
 
 namespace OnlineShop.Messaging.Service;
 
-public class Subscriber<TMessage> : ISubscriber<TMessage>, IDisposable
+public class Subscriber<TMessage> : ISubscriber<TMessage>
 {
     private readonly ListenManager<TMessage> _listenManager;
 
@@ -22,5 +21,4 @@ public class Subscriber<TMessage> : ISubscriber<TMessage>, IDisposable
     {
         _listenManager.Dispose();
     }
-
 }

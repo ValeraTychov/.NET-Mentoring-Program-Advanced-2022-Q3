@@ -20,7 +20,7 @@ public class CategoryRepository : GenericRepository<Category, DalCategory>, ICat
         {
             base.Add(dalCategory);
         }
-                
+
         Add(dalCategory);
     }
 
@@ -45,7 +45,7 @@ public class CategoryRepository : GenericRepository<Category, DalCategory>, ICat
             base.Update(item);
             return;
         }
-        
+
         var parentFromDb = Entities.FirstOrDefault(c => c.Id == dalCategory.Parent.Id);
         dalCategory.Parent = parentFromDb;
 

@@ -1,6 +1,6 @@
 ﻿namespace OnlineShop.Messaging.Abstraction
 {
-    public interface IPublisher<TMessage>
+    public interface IPublisher<in TMessage>
     {
         public void Publish(TMessage message);
     }

@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.CatalogService.Domain;
 using OnlineShop.CatalogService.Domain.Entities;
-using DalItem = OnlineShop.CatalogService.Infrastructure.DAL.Entities.Item;
 using DalCategory = OnlineShop.CatalogService.Infrastructure.DAL.Entities.Category;
+using DalItem = OnlineShop.CatalogService.Infrastructure.DAL.Entities.Item;
 
 namespace OnlineShop.CatalogService.Infrastructure.DAL;
 
@@ -41,7 +41,7 @@ public class ItemRepository : GenericRepository<Item, DalItem>, IItemRepository
     public override void Update(Item item)
     {
         var dalItem = Mapper.Map<DalItem>(item);
-        
+
         var parentFromDb = DbContext.Set<DalCategory>().FirstOrDefault(c => c.Id == dalItem.CategoryId);
         dalItem.Category = parentFromDb;
 

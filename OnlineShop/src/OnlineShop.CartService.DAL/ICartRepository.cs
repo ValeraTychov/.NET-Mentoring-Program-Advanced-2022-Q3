@@ -6,7 +6,7 @@ public interface ICartRepository
 {
     IEnumerable<Cart> Get();
 
-    public Cart Get(Guid cartId);
+    public Cart? Get(Guid cartId);
 
     public void AddOrUpdate(Cart cart);
 }

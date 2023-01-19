@@ -17,7 +17,7 @@ namespace OnlineShop.Identity.Server.Areas.Identity.Pages.Admin
         [BindProperty]
         public string NewRole { get; set; }
 
-        public List<OutputRole> OutputRoles { get; set; } 
+        public List<OutputRole> OutputRoles { get; set; }
 
         public void OnGet()
         {

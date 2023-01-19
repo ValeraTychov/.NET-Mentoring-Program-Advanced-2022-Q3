@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using OnlineShop.CartService.BLL;
 using OnlineShop.CartService.Api.Entities;
+using OnlineShop.CartService.BLL;
 
 namespace OnlineShop.CartService.Api.Controllers.V2;
 

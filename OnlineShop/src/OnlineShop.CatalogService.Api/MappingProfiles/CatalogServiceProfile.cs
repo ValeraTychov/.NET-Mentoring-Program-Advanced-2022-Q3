@@ -1,6 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Runtime.CompilerServices;
+using AutoMapper;
 using OnlineShop.CatalogService.Api.Entities;
-using System.Runtime.CompilerServices;
 using DomainCategory = OnlineShop.CatalogService.Domain.Entities.Category;
 using DomainItem = OnlineShop.CatalogService.Domain.Entities.Item;
 

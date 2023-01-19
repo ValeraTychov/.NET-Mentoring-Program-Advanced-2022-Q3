@@ -1,7 +1,7 @@
 ﻿using OnlineShop.Identity.Server.Models;
-using DalUser = OnlineShop.Identity.Server.DataAccess.Entities.User;
-using DalRole = OnlineShop.Identity.Server.DataAccess.Entities.Role;
 using DalClaim = OnlineShop.Identity.Server.DataAccess.Entities.RoleClaim;
+using DalRole = OnlineShop.Identity.Server.DataAccess.Entities.Role;
+using DalUser = OnlineShop.Identity.Server.DataAccess.Entities.User;
 
 namespace OnlineShop.Identity.Server.Mapping;
 

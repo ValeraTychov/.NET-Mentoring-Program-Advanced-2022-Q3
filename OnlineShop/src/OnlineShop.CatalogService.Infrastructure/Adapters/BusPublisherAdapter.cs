@@ -5,7 +5,7 @@ using OnlineShop.Messaging.Abstraction;
 
 namespace OnlineShop.CatalogService.Infrastructure.Adapters;
 
-public class BusPublisherAdapter<TMessage> : IBusPublisher<TMessage>
+public class BusPublisherAdapter<TMessage> : IBusPublisher
 {
     private readonly IPublisher<TMessage> _publisher;
     private readonly IMapper _mapper;

@@ -1,7 +1,7 @@
 using AutoMapper;
+using FluentAssertions;
 using OnlineShop.CartService.BLL.Entities;
 using OnlineShop.CartService.BLL.MappingProfiles;
-using FluentAssertions;
 
 namespace OnlineShop.CartService.BLL.Test;
 
@@ -65,7 +65,7 @@ public class CartServiceProfileTests
 
         var config = new MapperConfiguration(cfg => cfg.AddProfile<CartServiceProfile>());
         var actual = config.CreateMapper().Map<DAL.Entities.Cart>(cart);
-        
+
         actual.Should().BeEquivalentTo(expected);
     }
 
