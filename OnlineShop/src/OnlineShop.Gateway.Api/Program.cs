@@ -52,6 +52,13 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseOcelot();
+app.Use((context, next) =>
+{
+    var a = 42;
+
+    return next(context);
+});
+
+await app.UseOcelot();
 
 app.Run();

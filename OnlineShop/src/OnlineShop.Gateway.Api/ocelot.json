@@ -40,6 +40,9 @@
       ],
       "UpstreamPathTemplate": "/api/CatalogService/Categories/{everything}",
       "UpstreamHttpMethod": [ "Get" ],
+      "RouteClaimsRequirement": {
+        "Role": "Administrator"
+      },
       "FileCacheOptions": {
         "TtlSeconds": 60
       }
